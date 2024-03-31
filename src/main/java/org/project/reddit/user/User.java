@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 
 public class User {
     private static final List<User> userList = new ArrayList<>();
+    private static int userCount = 0;
     private final UUID id;
     private final List<SubReddit> subRedditList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
@@ -28,6 +29,7 @@ public class User {
     private int karma;
 
     public User(String email, String username, String password) {
+        userCount++;
         this.id = generateId();
         this.email = email;
         this.username = username;
@@ -35,7 +37,11 @@ public class User {
         this.karma = 0;
     }
 
-    private static User findUserViaId(UUID id) {
+    public static int getUserCount() {
+        return userCount;
+    }
+
+    public static User findUserViaId(UUID id) {
         for (User user : userList) {
             if (user.id.equals(id)) {
                 System.out.println("> id found");
@@ -46,7 +52,7 @@ public class User {
         return null;
     }
 
-    private static User findUserViaEmail(String email) {
+    public static User findUserViaEmail(String email) {
         for (User user : userList) {
             if (user.email.equals(email)) {
                 System.out.println("> email found");
@@ -57,7 +63,7 @@ public class User {
         return null;
     }
 
-    private static User findUserViaUsername(String username) {
+    public static User findUserViaUsername(String username) {
         for (User user : userList) {
             if (user.username.equals(username)) {
                 System.out.println("> username found");
@@ -120,7 +126,7 @@ public class User {
         System.out.println("> user was successfully signed up");
     }
 
-    public void logIn(String username, String password) {
+    public static void logIn(String username, String password) {
         User user = findUserViaUsername(username);
         if (user != null) {
             if (user.password.equals(DigestUtils.sha256Hex(password))) {
@@ -131,6 +137,18 @@ public class User {
         } else {
             System.out.println("> username not correct");
         }
+    }
+
+    public List<SubReddit> getSubRedditList() {
+        return new ArrayList<>(this.subRedditList);
+    }
+
+    public List<Post> getPostList() {
+        return new ArrayList<>(this.postList);
+    }
+
+    public int getKarma() {
+        return this.karma;
     }
 
     public void changeEmail(String newEmail) {
@@ -174,8 +192,17 @@ public class User {
         System.out.println("> subreddit was successfully created");
     }
 
-    public List<SubReddit> getSubRedditList() {
-        return new ArrayList<>(this.subRedditList);
+    public void removeMember(User user, SubReddit subReddit) {
+        if (!subReddit.getMemberList().contains(user)) {
+            System.out.println("> member doesn't exist for this subreddit");
+            return;
+        }
+        if (!subReddit.getAdminList().contains(user)) {
+            System.out.println("> access not granted");
+            return;
+        }
+        user.leaveSubReddit(subReddit);
+        System.out.println("> user was removed by admin");
     }
 
     public void createPost(String tite, String text, SubReddit subReddit) {
@@ -219,10 +246,6 @@ public class User {
         post.changeText(newText);
     }
 
-    public List<Post> getPostList() {
-        return new ArrayList<>(this.postList);
-    }
-
     public void createComment(String text, Post post) {
         Comment comment = new Comment(text, post, this);
         this.commentList.add(comment);
@@ -248,6 +271,11 @@ public class User {
             return;
         }
         comment.changeText(newText);
+    }
+
+    public void replyComment(Comment comment, String text) {
+        Comment reply = new Comment(text, comment.getPost(), comment.getUser());
+        comment.replyComment(reply);
     }
 
     public void increaseKarma() {
@@ -310,18 +338,5 @@ public class User {
         this.downVotedCommentList.add(comment);
         comment.decreaseKarma();
         comment.getUser().decreaseKarma();
-    }
-
-    public void removeMember(User user, SubReddit subReddit) {
-        if (!subReddit.getMemberList().contains(user)) {
-            System.out.println("> member doesn't exist for this subreddit");
-            return;
-        }
-        if (!subReddit.getAdminList().contains(user)) {
-            System.out.println("> access not granted");
-            return;
-        }
-        user.leaveSubReddit(subReddit);
-        System.out.println("> user was removed by admin");
     }
 }

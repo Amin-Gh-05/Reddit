@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Post {
+    private static int postCount = 0;
     private final List<Comment> commentList = new ArrayList<>();
     private final List<String> tagList = new ArrayList<>();
     private final SubReddit subReddit;
@@ -18,6 +19,7 @@ public class Post {
     private int karma;
 
     public Post(String title, String text, SubReddit subReddit, User user) {
+        postCount++;
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
@@ -28,6 +30,7 @@ public class Post {
     }
 
     public Post(List<String> tagList, String title, String text, SubReddit subReddit, User user) {
+        postCount++;
         this.tagList.addAll(tagList);
         this.title = title;
         this.text = text;
@@ -36,6 +39,10 @@ public class Post {
         this.user = user;
         this.karma = 0;
         this.createDateTime = formatDateTime(LocalDateTime.now());
+    }
+
+    public static int getPostCount() {
+        return postCount;
     }
 
     private String formatDateTime(LocalDateTime dateTime) {

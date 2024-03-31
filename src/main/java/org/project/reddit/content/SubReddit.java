@@ -9,6 +9,7 @@ import java.util.List;
 
 public class SubReddit {
     private static final List<SubReddit> subRedditList = new ArrayList<>();
+    private static int subRedditCount = 0;
     private final List<User> memberList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
     private final List<User> adminList = new ArrayList<>();
@@ -17,11 +18,28 @@ public class SubReddit {
     private int memberCount;
 
     public SubReddit(String topic, User admin) {
+        subRedditCount++;
         this.topic = topic;
         this.adminList.add(admin);
         this.memberCount = 0;
         subRedditList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
+    }
+
+    public static int getSubRedditCount() {
+        System.out.println("> subreddit count refreshed");
+        return subRedditCount;
+    }
+
+    public static SubReddit findSubReddit(String topic) {
+        for (SubReddit subReddit : subRedditList) {
+            if (subReddit.topic.equals(topic)) {
+                System.out.println("> subreddit found");
+                return subReddit;
+            }
+        }
+        System.out.println("> subreddit not found");
+        return null;
     }
 
     private String formatDateTime(LocalDateTime dateTime) {
@@ -51,17 +69,6 @@ public class SubReddit {
 
     public int getMemberCount() {
         return this.memberCount;
-    }
-
-    public SubReddit findSubReddit(String topic) {
-        for (SubReddit subReddit : subRedditList) {
-            if (subReddit.topic.equals(topic)) {
-                System.out.println("> subreddit found");
-                return subReddit;
-            }
-        }
-        System.out.println("> subreddit not found");
-        return null;
     }
 
     public void addMember(User user) {
