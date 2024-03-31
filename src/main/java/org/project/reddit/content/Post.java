@@ -5,9 +5,11 @@ import org.project.reddit.user.User;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class Post {
+    private static final List<Post> postList = new ArrayList<>();
     private static int postCount = 0;
     private final List<Comment> commentList = new ArrayList<>();
     private final List<String> tagList = new ArrayList<>();
@@ -26,6 +28,7 @@ public class Post {
         subReddit.addPost(this);
         this.user = user;
         this.karma = 0;
+        postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
     }
 
@@ -38,11 +41,28 @@ public class Post {
         subReddit.addPost(this);
         this.user = user;
         this.karma = 0;
+        postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
     }
 
     public static int getPostCount() {
         return postCount;
+    }
+
+    public static String[] getTrendingPosts() {
+        postList.sort(Comparator.comparingInt(Post::getKarma).reversed());
+        int size = postList.size();
+        String[] trendingPostTitle = new String[size];
+        if (size >= 10) {
+            for (int i = 0; i < 5; i++) {
+                trendingPostTitle[i] = postList.get(i).title;
+            }
+        } else {
+            for (int i = 0; i < size; i++) {
+                trendingPostTitle[i] = postList.get(i).title;
+            }
+        }
+        return trendingPostTitle;
     }
 
     private String formatDateTime(LocalDateTime dateTime) {
