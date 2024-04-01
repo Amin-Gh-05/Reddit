@@ -26,6 +26,7 @@ public class Comment {
     }
 
     public static int getCommentCount() {
+        System.out.println("> comment count refreshed");
         return commentCount;
     }
 

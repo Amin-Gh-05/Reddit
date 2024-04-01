@@ -74,23 +74,23 @@ public class SubReddit {
     public void addMember(User user) {
         this.memberList.add(user);
         this.memberCount++;
-        System.out.println("> member was successfully added");
+        System.out.println("> member was added");
     }
 
     public void removeMember(User user) {
         this.memberList.remove(user);
         this.memberCount--;
-        System.out.println("> member was successfully removed");
+        System.out.println("> member was removed");
     }
 
     public void addPost(Post post) {
         this.postList.add(post);
-        System.out.println("> post was successfully created");
+        System.out.println("> post was created");
     }
 
     public void removePost(Post post) {
         this.postList.remove(post);
-        System.out.println("> post was successfully removed");
+        System.out.println("> post was removed");
     }
 
     public void addAdmin(User admin) {
@@ -99,6 +99,6 @@ public class SubReddit {
             return;
         }
         this.adminList.add(admin);
-        System.out.println("> admin was successfully added");
+        System.out.println("> admin was added");
     }
 }

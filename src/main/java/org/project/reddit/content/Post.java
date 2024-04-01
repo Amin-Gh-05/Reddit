@@ -46,6 +46,7 @@ public class Post {
     }
 
     public static int getPostCount() {
+        System.out.println("> post count refreshed");
         return postCount;
     }
 

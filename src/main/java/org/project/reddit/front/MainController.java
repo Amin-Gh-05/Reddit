@@ -1,4 +1,4 @@
-package org.project.reddit;
+package org.project.reddit.front;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -49,6 +49,7 @@ public class MainController implements Initializable {
         postCount.setText(String.valueOf(Post.getPostCount()));
         commentCount.setText(String.valueOf(Comment.getCommentCount()));
         trendingPostList.getItems().addAll(Post.getTrendingPosts());
+        System.out.println("> main panel got initialized");
     }
 
     @FXML
@@ -73,23 +74,26 @@ public class MainController implements Initializable {
 
     @FXML
     void openSignUpPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("signup-view.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/signup-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        System.out.println("> redirect to signup page");
     }
 
     @FXML
     void openLogInPage(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("login-view.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/login-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        System.out.println("> redirect to login page");
     }
 
     @FXML
     void refreshTrendingPosts(ActionEvent event) {
         trendingPostList.getItems().addAll(Post.getTrendingPosts());
+        System.out.println("> trending post list refreshed");
     }
 
     @FXML

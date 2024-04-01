@@ -38,6 +38,7 @@ public class User {
     }
 
     public static int getUserCount() {
+        System.out.println("> user count refreshed");
         return userCount;
     }
 
@@ -79,31 +80,32 @@ public class User {
         while (findUserViaId(id) != null) {
             id = UUID.randomUUID();
         }
+        System.out.println("> user id was generated");
         return id;
     }
 
-    private static boolean validateEmail(String email) {
+    public static boolean validateEmail(String email) {
         if (findUserViaEmail(email) != null) {
             System.out.println("> email already used");
             return false;
         }
-        Pattern pattern = Pattern.compile("^[\\w-.]+@[\\w-.]+\\.[\\w-]{2,4}&");
+        Pattern pattern = Pattern.compile("[\\w-.]+@[\\w-.]+\\.[\\w-]{2,4}");
         Matcher matcher = pattern.matcher(email);
         return matcher.find();
     }
 
-    private static boolean validateUsername(String username) {
+    public static boolean validateUsername(String username) {
         if (findUserViaUsername(username) != null) {
             System.out.println("> username already taken");
             return false;
         }
-        Pattern pattern = Pattern.compile("^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$");
+        Pattern pattern = Pattern.compile("(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])");
         Matcher matcher = pattern.matcher(username);
         return matcher.find();
     }
 
-    private static boolean validatePassword(String password) {
-        Pattern pattern = Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$");
+    public static boolean validatePassword(String password) {
+        Pattern pattern = Pattern.compile("(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}");
         Matcher matcher = pattern.matcher(password);
         return matcher.find();
     }
@@ -123,7 +125,7 @@ public class User {
         }
         User user = new User(email, username, password);
         userList.add(user);
-        System.out.println("> user was successfully signed up");
+        System.out.println("> user was signed up");
     }
 
     public static void logIn(String username, String password) {
@@ -154,34 +156,34 @@ public class User {
     public void changeEmail(String newEmail) {
         if (validateEmail(newEmail)) {
             this.email = newEmail;
-            System.out.println("> email was successfully updated");
+            System.out.println("> email was updated");
         }
     }
 
     public void changeUsername(String newUsername) {
         if (validateUsername(newUsername)) {
             this.username = newUsername;
-            System.out.println("> username was successfully updated");
+            System.out.println("> username was updated");
         }
     }
 
     public void changePassword(String newPassword) {
         if (validatePassword(newPassword)) {
             this.password = DigestUtils.sha256Hex(newPassword);
-            System.out.println("> password was successfully updated");
+            System.out.println("> password was updated");
         }
     }
 
     public void joinSubReddit(SubReddit subReddit) {
         this.subRedditList.add(subReddit);
         subReddit.addMember(this);
-        System.out.println("> user successfully joined subreddit");
+        System.out.println("> user joined subreddit");
     }
 
     public void leaveSubReddit(SubReddit subReddit) {
         this.subRedditList.remove(subReddit);
         subReddit.removeMember(this);
-        System.out.println("> user successfully left subreddit");
+        System.out.println("> user left subreddit");
     }
 
     public void createSubReddit(String topic) {
@@ -189,7 +191,7 @@ public class User {
         this.subRedditList.add(subReddit);
         subReddit.addMember(this);
         subReddit.addAdmin(this);
-        System.out.println("> subreddit was successfully created");
+        System.out.println("> subreddit was created");
     }
 
     public void removeMember(User user, SubReddit subReddit) {
@@ -244,6 +246,7 @@ public class User {
             return;
         }
         post.changeText(newText);
+        System.out.println("> post's text was edited");
     }
 
     public void createComment(String text, Post post) {
