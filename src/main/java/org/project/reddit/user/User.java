@@ -4,7 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.project.reddit.content.Comment;
 import org.project.reddit.content.Post;
 import org.project.reddit.content.SubReddit;
-import org.project.reddit.front.UserPanel;
+import org.project.reddit.front.UserPanelController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,7 +132,7 @@ public class User {
         User user = findUserViaUsername(username);
         if (user != null) {
             if (user.password.equals(DigestUtils.sha256Hex(password))) {
-                UserPanel.runMenu();
+                UserPanelController.runMenu();
             } else {
                 System.out.println("> password not correct");
             }
@@ -151,6 +151,10 @@ public class User {
 
     public int getKarma() {
         return this.karma;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(DigestUtils.sha256Hex(password));
     }
 
     public void changeEmail(String newEmail) {

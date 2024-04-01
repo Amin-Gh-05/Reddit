@@ -1,6 +1,6 @@
 package org.project.reddit.front;
 
-public class UserPanel {
+public class UserPanelController {
     public static void runMenu() {
 
     }

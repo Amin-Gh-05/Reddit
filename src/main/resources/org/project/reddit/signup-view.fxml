@@ -13,11 +13,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.SignupController">
    <children>
-      <GridPane layoutX="139.0" layoutY="60.0" prefHeight="419.0" prefWidth="522.0">
+      <GridPane layoutX="149.0" layoutY="60.0" prefHeight="419.0" prefWidth="501.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.66668701171875" minWidth="10.0" prefWidth="101.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="225.66661071777344" minWidth="10.0" prefWidth="213.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="163.66668701171875" minWidth="10.0" prefWidth="91.66666158040363" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="331.33327229817706" minWidth="10.0" prefWidth="315.3333333333333" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="134.99999999999994" minWidth="10.0" prefWidth="90.99999999999994" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />

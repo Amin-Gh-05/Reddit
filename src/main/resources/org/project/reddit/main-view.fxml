@@ -26,7 +26,7 @@
          <children>
             <ImageView fitHeight="39.0" fitWidth="91.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="NEVER">
                <image>
-                  <Image url="@logo.png" />
+                  <Image url="@pics/logo.png" />
                </image>
             </ImageView>
             <Button mnemonicParsing="false" onAction="#searchAll" text="Search">
@@ -129,7 +129,7 @@
                      <children>
                         <ImageView fitHeight="228.0" fitWidth="302.0" layoutX="312.0" layoutY="202.0" pickOnBounds="true">
                            <image>
-                              <Image url="@place.png" />
+                              <Image url="@pics/place.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="233.0" layoutY="14.0" text="Welcome to Reddit">
@@ -139,35 +139,35 @@
                         </Label>
                         <ImageView fitHeight="228.0" fitWidth="302.0" layoutX="5.0" layoutY="202.0" pickOnBounds="true">
                            <image>
-                              <Image url="@reddit.png" />
+                              <Image url="@pics/reddit.png" />
                            </image>
                         </ImageView>
-                        <Label layoutX="14.0" layoutY="50.0" prefHeight="17.0" prefWidth="462.0" text="Whether you’re a seasoned Redditor or a newcomer, we’re thrilled to have you here. 🎉">
+                        <Label layoutX="14.0" layoutY="51.0" prefHeight="19.0" prefWidth="591.0" text="Whether you’re a seasoned Redditor or a newcomer, we’re thrilled to have you here. 🎉" wrapText="true">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="67.0" text="Join the discussions, share your thoughts, and explore a wide range of topic.">
+                        <Label layoutX="14.0" layoutY="67.0" prefHeight="19.0" prefWidth="591.0" text="Join the discussions, share your thoughts, and explore a wide range of topic.">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="84.0" text="Our community is all about connecting people and fostering meaningful conversations.">
+                        <Label layoutX="14.0" layoutY="84.0" prefHeight="19.0" prefWidth="591.0" text="Our community is all about connecting people and fostering meaningful conversations.">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="101.0" text="Remember to follow our community guidelines, be respectful, and upvote the content you love.">
+                        <Label layoutX="14.0" layoutY="101.0" prefHeight="19.0" prefWidth="591.0" text="Remember to follow our community guidelines, be respectful, and upvote the content you love.">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="118.0" text="Feel free to create your own posts, ask questions, and engage with fellow Redditors.">
+                        <Label layoutX="14.0" layoutY="118.0" prefHeight="19.0" prefWidth="591.0" text="Feel free to create your own posts, ask questions, and engage with fellow Redditors.">
                            <font>
                               <Font size="13.0" />
                            </font>
                         </Label>
-                        <Label layoutX="14.0" layoutY="135.0" text="Together, we’ll make this subreddit an exciting and welcoming space for everyone.">
+                        <Label layoutX="14.0" layoutY="135.0" prefHeight="19.0" prefWidth="591.0" text="Together, we’ll make this subreddit an exciting and welcoming space for everyone.">
                            <font>
                               <Font size="13.0" />
                            </font>
