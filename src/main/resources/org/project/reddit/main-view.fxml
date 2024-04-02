@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="540.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.MainController">
    <top>
-      <HBox alignment="CENTER" prefHeight="60.0" prefWidth="589.0" spacing="10.0" BorderPane.alignment="CENTER">
+      <HBox alignment="CENTER" prefHeight="60.0" prefWidth="789.0" spacing="10.0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </BorderPane.margin>
@@ -95,7 +95,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <HBox alignment="CENTER" layoutX="5.333333333333333" layoutY="182.0" prefHeight="36.0" prefWidth="159.0" spacing="10.0" AnchorPane.leftAnchor="5.333333333333333" AnchorPane.rightAnchor="6.0">
+            <HBox alignment="CENTER" layoutX="5.333333333333333" layoutY="182.0" prefHeight="36.0" prefWidth="159.0" spacing="10.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0">
                <children>
                   <Label text="Trending">
                      <font>
@@ -110,7 +110,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </HBox>
-            <ListView fx:id="trendingPostList" layoutX="4.0" layoutY="220.0" prefHeight="240.0" prefWidth="162.0" />
+            <ListView fx:id="trendingPostList" layoutX="4.0" layoutY="220.0" prefHeight="240.0" prefWidth="162.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" />
          </children>
          <BorderPane.margin>
             <Insets bottom="5.0" left="5.0" />

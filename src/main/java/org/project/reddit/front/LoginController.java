@@ -28,7 +28,7 @@ public class LoginController {
 
     @FXML
     void cancelLogIn(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("org/project/reddit/main-view.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/main-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -36,7 +36,7 @@ public class LoginController {
     }
 
     @FXML
-    void logIn(ActionEvent event) {
+    void logIn(ActionEvent event) throws IOException {
         User user = User.findUserViaUsername(usernameText.getText());
         if (user == null) {
             credValidity.setText("Invalid Username");
@@ -46,7 +46,11 @@ public class LoginController {
             credValidity.setText("Incorrect Password");
             return;
         }
-        User.logIn(usernameText.getText(), passwordText.getText());
+        UserPanelController.user = user;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/user-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
         System.out.println("> redirect to user panel");
     }
 

@@ -4,7 +4,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.project.reddit.content.Comment;
 import org.project.reddit.content.Post;
 import org.project.reddit.content.SubReddit;
-import org.project.reddit.front.UserPanelController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ public class User {
     private final UUID id;
     private final List<SubReddit> subRedditList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
+    private final List<Post> savedPostList = new ArrayList<>();
     private final List<Comment> commentList = new ArrayList<>();
     private final List<Post> upVotedPostList = new ArrayList<>();
     private final List<Post> downVotedPostList = new ArrayList<>();
@@ -128,25 +128,20 @@ public class User {
         System.out.println("> user was signed up");
     }
 
-    public static void logIn(String username, String password) {
-        User user = findUserViaUsername(username);
-        if (user != null) {
-            if (user.password.equals(DigestUtils.sha256Hex(password))) {
-                UserPanelController.runMenu();
-            } else {
-                System.out.println("> password not correct");
-            }
-        } else {
-            System.out.println("> username not correct");
-        }
-    }
-
     public List<SubReddit> getSubRedditList() {
         return new ArrayList<>(this.subRedditList);
     }
 
     public List<Post> getPostList() {
         return new ArrayList<>(this.postList);
+    }
+
+    public List<Post> getSavedPostList() {
+        return new ArrayList<>(savedPostList);
+    }
+
+    public List<Comment> getCommentList() {
+        return new ArrayList<>(this.commentList);
     }
 
     public int getKarma() {
@@ -251,6 +246,11 @@ public class User {
         }
         post.changeText(newText);
         System.out.println("> post's text was edited");
+    }
+
+    public void savePost(Post post) {
+        this.savedPostList.add(post);
+        System.out.println("> post was saved");
     }
 
     public void createComment(String text, Post post) {
