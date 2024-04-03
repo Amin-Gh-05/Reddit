@@ -67,8 +67,13 @@ public class UserPanelController implements Initializable {
     }
 
     @FXML
-    void viewProfile(ActionEvent event) {
-
+    void viewProfile(ActionEvent event) throws IOException {
+        ProfileController.user = user;
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/profile-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        System.out.println("> redirect to profile panel");
     }
 
     private String[] refreshSavedPosts() {

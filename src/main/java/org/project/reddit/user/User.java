@@ -144,6 +144,14 @@ public class User {
         return new ArrayList<>(this.commentList);
     }
 
+    public String getEmail() {
+        return this.email;
+    }
+
+    public String getUsername() {
+        return this.username;
+    }
+
     public int getKarma() {
         return this.karma;
     }
