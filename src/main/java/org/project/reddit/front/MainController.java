@@ -92,6 +92,7 @@ public class MainController implements Initializable {
 
     @FXML
     void refreshTrendingPosts(ActionEvent event) {
+        trendingPostList.getItems().clear();
         trendingPostList.getItems().addAll(Post.getTrendingPosts());
         System.out.println("> trending post list refreshed");
     }

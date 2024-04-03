@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="560.0" style="-fx-border-color: lightgray; -fx-border-width: 3px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.PostController">
+   <children>
+      <Label fx:id="usernameText" layoutX="14.0" layoutY="14.0" text="Username" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="dateTimeText" layoutX="534.0" layoutY="14.0" text="Date and Time" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="topicText" layoutX="14.0" layoutY="40.0" text="Topic" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="40.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="textBody" alignment="TOP_LEFT" layoutX="24.666666666666664" layoutY="65.0" prefHeight="70.0" prefWidth="540.0" text="Text" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Button layoutX="508.0" layoutY="155.0" mnemonicParsing="false" onAction="#commentPost" text="Comment" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="14.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Button layoutX="424.0" layoutY="165.0" mnemonicParsing="false" onAction="#savePost" text="Save" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="100.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Button>
+      <Label fx:id="tagsText" layoutX="14.0" layoutY="169.0" text="Tags" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="14.0">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <ScrollPane layoutX="24.666666666666664" layoutY="110.0" prefHeight="90.0" prefWidth="540.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="20.0">
+         <content>
+            <VBox fx:id="commentBox" prefHeight="87.0" prefWidth="502.0" spacing="5.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </VBox>
+         </content>
+      </ScrollPane>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+   </padding>
+</AnchorPane>

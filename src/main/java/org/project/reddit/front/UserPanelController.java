@@ -8,7 +8,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.project.reddit.content.Post;
 import org.project.reddit.user.User;
 
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class UserPanelController implements Initializable {
     private TextField searchText;
 
     @FXML
-    private Tab timeLine;
+    private VBox postBox;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -43,6 +45,30 @@ public class UserPanelController implements Initializable {
         postCount.setText(String.valueOf(user.getPostList().size()));
         commentCount.setText(String.valueOf(user.getCommentList().size()));
         savedPostList.getItems().addAll(refreshSavedPosts());
+        for (Post post : refreshTimeline()) {
+            PostController.post = post;
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/post-view.fxml"));
+            try {
+                Node node = loader.load();
+                PostController controller = loader.getController();
+                controller.usernameText.setText(post.getUser().getUsername());
+                controller.dateTimeText.setText(post.getCreateDateTime());
+                controller.topicText.setText(post.getTitle());
+                controller.textBody.setText(post.getText());
+                if (!post.getTagList().isEmpty()) {
+                    String tags = "";
+                    for (String tag : post.getTagList()) {
+                        tags += "#" + tag;
+                    }
+                    controller.tagsText.setText(tags);
+                } else {
+                    controller.tagsText.setVisible(false);
+                }
+                postBox.getChildren().add(node);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @FXML
@@ -83,5 +109,20 @@ public class UserPanelController implements Initializable {
             savedPosts[i] = user.getSavedPostList().get(i).getTitle();
         }
         return savedPosts;
+    }
+
+    private Post[] refreshTimeline() {
+        int size = user.getTimelinePostList().size();
+        Post[] timelinePosts = new Post[size];
+        if (size >= 10) {
+            for (int i = size - 1; i >= size - 10; i--) {
+                timelinePosts[i] = user.getTimelinePostList().get(i);
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
+                timelinePosts[i] = user.getTimelinePostList().get(i);
+            }
+        }
+        return timelinePosts;
     }
 }

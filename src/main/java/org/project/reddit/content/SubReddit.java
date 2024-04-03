@@ -85,11 +85,17 @@ public class SubReddit {
 
     public void addPost(Post post) {
         this.postList.add(post);
+        for (User user : this.memberList) {
+            user.addPostToTimeline(post);
+        }
         System.out.println("> post was created");
     }
 
     public void removePost(Post post) {
         this.postList.remove(post);
+        for (User user : this.memberList) {
+            user.removePostFromTimeline(post);
+        }
         System.out.println("> post was removed");
     }
 

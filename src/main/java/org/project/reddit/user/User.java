@@ -18,6 +18,7 @@ public class User {
     private final List<SubReddit> subRedditList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
     private final List<Post> savedPostList = new ArrayList<>();
+    private final List<Post> timelinePostList = new ArrayList<>();
     private final List<Comment> commentList = new ArrayList<>();
     private final List<Post> upVotedPostList = new ArrayList<>();
     private final List<Post> downVotedPostList = new ArrayList<>();
@@ -140,6 +141,10 @@ public class User {
         return new ArrayList<>(savedPostList);
     }
 
+    public List<Post> getTimelinePostList() {
+        return new ArrayList<>(this.timelinePostList);
+    }
+
     public List<Comment> getCommentList() {
         return new ArrayList<>(this.commentList);
     }
@@ -259,6 +264,14 @@ public class User {
     public void savePost(Post post) {
         this.savedPostList.add(post);
         System.out.println("> post was saved");
+    }
+
+    public void addPostToTimeline(Post post) {
+        this.timelinePostList.add(post);
+    }
+
+    public void removePostFromTimeline(Post post) {
+        this.timelinePostList.remove(post);
     }
 
     public void createComment(String text, Post post) {

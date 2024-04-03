@@ -25,7 +25,6 @@ public class Post {
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
-        subReddit.addPost(this);
         this.user = user;
         this.karma = 0;
         postList.add(this);
@@ -38,7 +37,6 @@ public class Post {
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
-        subReddit.addPost(this);
         this.user = user;
         this.karma = 0;
         postList.add(this);
