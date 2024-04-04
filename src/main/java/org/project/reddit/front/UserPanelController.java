@@ -31,7 +31,7 @@ public class UserPanelController implements Initializable {
     private Label commentCount;
 
     @FXML
-    private ListView<String> savedPostList;
+    public ListView<String> savedPostList;
 
     @FXML
     private TextField searchText;
@@ -44,14 +44,70 @@ public class UserPanelController implements Initializable {
         subredditCount.setText(String.valueOf(user.getSubRedditList().size()));
         postCount.setText(String.valueOf(user.getPostList().size()));
         commentCount.setText(String.valueOf(user.getCommentList().size()));
-        savedPostList.getItems().addAll(refreshSavedPosts());
-        for (Post post : refreshTimeline()) {
-            PostController.post = post;
+        refreshSavedPosts();
+        refreshTimeline();
+    }
+
+    @FXML
+    void logOut(ActionEvent event) throws IOException {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Log Out");
+        alert.setHeaderText("Returning to main panel");
+        alert.setContentText("Are you sure you want to logout?");
+        if (alert.showAndWait().get() == ButtonType.OK) {
+            user = null;
+            ProfileController.user = null;
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/main-view.fxml")));
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            System.out.println("> redirect to main panel");
+        }
+    }
+
+    @FXML
+    void searchAll(ActionEvent event) {
+
+    }
+
+    @FXML
+    void viewProfile(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/profile-view.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        System.out.println("> redirect to profile panel");
+    }
+
+    public void refreshSavedPosts() {
+        int size = user.getSavedPostList().size();
+        String[] savedPosts = new String[size];
+        for (int i = 0; i < size; i++) {
+            savedPosts[i] = user.getSavedPostList().get(i).getTitle();
+        }
+        savedPostList.getItems().addAll(savedPosts);
+    }
+
+    public void refreshTimeline() {
+        int size = user.getTimelinePostList().size();
+        Post[] timelinePosts = new Post[size];
+        if (size >= 10) {
+            for (int i = size - 1; i >= size - 10; i--) {
+                timelinePosts[i] = user.getTimelinePostList().get(i);
+            }
+        } else {
+            for (int i = size - 1; i >= 0; i--) {
+                timelinePosts[i] = user.getTimelinePostList().get(i);
+            }
+        }
+        for (Post post : timelinePosts) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/post-view.fxml"));
             try {
                 Node node = loader.load();
                 PostController controller = loader.getController();
+                controller.post = post;
                 controller.usernameText.setText(post.getUser().getUsername());
+                controller.karmaCount.setText(String.valueOf(post.getKarma()));
                 controller.dateTimeText.setText(post.getCreateDateTime());
                 controller.topicText.setText(post.getTitle());
                 controller.textBody.setText(post.getText());
@@ -69,60 +125,5 @@ public class UserPanelController implements Initializable {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @FXML
-    void logOut(ActionEvent event) throws IOException {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Log Out");
-        alert.setHeaderText("Returning to main panel");
-        alert.setContentText("Are you sure you want to logout?");
-        if (alert.showAndWait().get() == ButtonType.OK) {
-            user = null;
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/main-view.fxml")));
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            System.out.println("> redirect to main panel");
-        }
-    }
-
-    @FXML
-    void searchAll(ActionEvent event) {
-
-    }
-
-    @FXML
-    void viewProfile(ActionEvent event) throws IOException {
-        ProfileController.user = user;
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/profile-view.fxml")));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        System.out.println("> redirect to profile panel");
-    }
-
-    private String[] refreshSavedPosts() {
-        int size = user.getSavedPostList().size();
-        String[] savedPosts = new String[size];
-        for (int i = 0; i < size; i++) {
-            savedPosts[i] = user.getSavedPostList().get(i).getTitle();
-        }
-        return savedPosts;
-    }
-
-    private Post[] refreshTimeline() {
-        int size = user.getTimelinePostList().size();
-        Post[] timelinePosts = new Post[size];
-        if (size >= 10) {
-            for (int i = size - 1; i >= size - 10; i--) {
-                timelinePosts[i] = user.getTimelinePostList().get(i);
-            }
-        } else {
-            for (int i = size - 1; i >= 0; i--) {
-                timelinePosts[i] = user.getTimelinePostList().get(i);
-            }
-        }
-        return timelinePosts;
     }
 }

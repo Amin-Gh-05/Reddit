@@ -4,12 +4,9 @@ import org.project.reddit.user.User;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Comment {
     private static int commentCount = 0;
-    private final List<Comment> replyList = new ArrayList<>();
     private final Post post;
     private final User user;
     private final String createDateTime;
@@ -33,10 +30,6 @@ public class Comment {
     private String formatDateTime(LocalDateTime dateTime) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return dateTime.format(myFormatObj);
-    }
-
-    public List<Comment> getReplyList() {
-        return new ArrayList<>(replyList);
     }
 
     public Post getPost() {
@@ -72,10 +65,5 @@ public class Comment {
     public void decreaseKarma() {
         this.karma--;
         System.out.println("> comment's karma was decreased");
-    }
-
-    public void replyComment(Comment reply) {
-        this.replyList.add(reply);
-        System.out.println("> comment was replied");
     }
 }

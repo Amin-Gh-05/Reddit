@@ -47,6 +47,7 @@ public class LoginController {
             return;
         }
         UserPanelController.user = user;
+        ProfileController.user = user;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/user-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

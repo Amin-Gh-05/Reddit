@@ -36,6 +36,8 @@ public class User {
         this.username = username;
         this.password = DigestUtils.sha256Hex(password);
         this.karma = 0;
+        this.createSubReddit("test");
+        this.createPost("test", "test", this.subRedditList.getFirst());
     }
 
     public static int getUserCount() {
@@ -262,6 +264,10 @@ public class User {
     }
 
     public void savePost(Post post) {
+        if (this.savedPostList.contains(post)) {
+            System.out.println("> post is already saved");
+            return;
+        }
         this.savedPostList.add(post);
         System.out.println("> post was saved");
     }
@@ -301,11 +307,6 @@ public class User {
         comment.changeText(newText);
     }
 
-    public void replyComment(Comment comment, String text) {
-        Comment reply = new Comment(text, comment.getPost(), comment.getUser());
-        comment.replyComment(reply);
-    }
-
     public void increaseKarma() {
         this.karma++;
         System.out.println("> user's karma increased");
@@ -318,10 +319,12 @@ public class User {
 
     public void upVote(Post post) {
         if (this.upVotedPostList.contains(post)) {
+            System.out.println("> post is already upvoted by user");
             return;
         }
         if (this.downVotedPostList.contains(post)) {
             this.downVotedPostList.remove(post);
+            post.increaseKarma();
             post.getUser().increaseKarma();
         }
         this.upVotedPostList.add(post);
@@ -331,10 +334,12 @@ public class User {
 
     public void upVote(Comment comment) {
         if (this.upVotedCommentList.contains(comment)) {
+            System.out.println("> comment is already upvoted by user");
             return;
         }
         if (this.downVotedCommentList.contains(comment)) {
             this.downVotedCommentList.remove(comment);
+            comment.increaseKarma();
             comment.getUser().increaseKarma();
         }
         this.upVotedCommentList.add(comment);
@@ -344,10 +349,12 @@ public class User {
 
     public void downVote(Post post) {
         if (this.downVotedPostList.contains(post)) {
+            System.out.println("> post is already downvoted by user");
             return;
         }
         if (this.upVotedPostList.contains(post)) {
             this.upVotedPostList.remove(post);
+            post.decreaseKarma();
             post.getUser().decreaseKarma();
         }
         this.downVotedPostList.add(post);
@@ -357,10 +364,12 @@ public class User {
 
     public void downVote(Comment comment) {
         if (this.downVotedCommentList.contains(comment)) {
+            System.out.println("> comment is already downvoted by user");
             return;
         }
         if (this.upVotedCommentList.contains(comment)) {
             this.upVotedCommentList.remove(comment);
+            comment.decreaseKarma();
             comment.getUser().decreaseKarma();
         }
         this.downVotedCommentList.add(comment);
