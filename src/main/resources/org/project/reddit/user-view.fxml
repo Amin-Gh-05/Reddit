@@ -100,6 +100,11 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <Button mnemonicParsing="false" onAction="#refreshSavedPosts" text="Refresh">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Button>
                </children>
             </HBox>
             <ListView fx:id="savedPostList" layoutY="185.0" prefHeight="289.0" prefWidth="189.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="6.0" />

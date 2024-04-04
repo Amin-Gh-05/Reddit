@@ -243,15 +243,8 @@ public class User {
             return;
         }
         this.postList.remove(post);
+        this.savedPostList.remove(post);
         subReddit.removePost(post);
-    }
-
-    public void changePostTitle(Post post, String newTitle) {
-        if (!this.getPostList().contains(post)) {
-            System.out.println("> access not granted");
-            return;
-        }
-        post.changeTitle(newTitle);
     }
 
     public void changePostText(Post post, String newText) {

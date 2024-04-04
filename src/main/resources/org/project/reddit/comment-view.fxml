@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.CommentController">
+<AnchorPane fx:id="commentPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.CommentController">
    <children>
       <Label fx:id="usernameText" layoutX="14.0" layoutY="14.0" text="Username" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="dateTimeText" layoutX="400.0" layoutY="14.0" text="Date and Time" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
@@ -12,5 +12,7 @@
       <Label fx:id="karmaCount" layoutX="10.0" layoutY="68.0" text="Karma" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
       <Button layoutX="454.0" layoutY="58.0" mnemonicParsing="false" onAction="#voteUpComment" text="👍" AnchorPane.bottomAnchor="6.666666666666671" AnchorPane.rightAnchor="10.0" />
       <Button layoutX="415.0" layoutY="58.0" mnemonicParsing="false" onAction="#voteDownComment" text="👎" AnchorPane.bottomAnchor="6.666666666666668" AnchorPane.rightAnchor="45.0" />
+      <Button fx:id="editButton" layoutX="317.0" layoutY="58.0" mnemonicParsing="false" onAction="#editComment" text="Edit" AnchorPane.bottomAnchor="6.666666666666671" AnchorPane.rightAnchor="137.0" />
+      <Button fx:id="deleteButton" layoutX="361.0" layoutY="58.0" mnemonicParsing="false" onAction="#deleteComment" text="Delete" AnchorPane.bottomAnchor="6.666666666666671" AnchorPane.rightAnchor="80.0" />
    </children>
 </AnchorPane>

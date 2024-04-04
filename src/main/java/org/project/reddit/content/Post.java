@@ -16,7 +16,7 @@ public class Post {
     private final SubReddit subReddit;
     private final User user;
     private final String createDateTime;
-    private String title;
+    private final String title;
     private String text;
     private int karma;
 
@@ -119,11 +119,6 @@ public class Post {
     public void decreaseKarma() {
         this.karma--;
         System.out.println("> post's karma was decreased");
-    }
-
-    public void changeTitle(String newTitle) {
-        this.title = newTitle;
-        System.out.println("> title was changed");
     }
 
     public void changeText(String newText) {

@@ -20,24 +20,19 @@ import java.util.ResourceBundle;
 
 public class UserPanelController implements Initializable {
     public static User user;
-
-    @FXML
-    private Label subredditCount;
-
-    @FXML
-    private Label postCount;
-
-    @FXML
-    private Label commentCount;
-
     @FXML
     public ListView<String> savedPostList;
+    @FXML
+    public Label subredditCount;
+    @FXML
+    public Label postCount;
+    @FXML
+    public Label commentCount;
+    @FXML
+    public TextField searchText;
 
     @FXML
-    private TextField searchText;
-
-    @FXML
-    private VBox postBox;
+    public VBox postBox;
 
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -79,16 +74,18 @@ public class UserPanelController implements Initializable {
         System.out.println("> redirect to profile panel");
     }
 
-    public void refreshSavedPosts() {
+    @FXML
+    void refreshSavedPosts() {
         int size = user.getSavedPostList().size();
         String[] savedPosts = new String[size];
         for (int i = 0; i < size; i++) {
             savedPosts[i] = user.getSavedPostList().get(i).getTitle();
         }
+        savedPostList.getItems().clear();
         savedPostList.getItems().addAll(savedPosts);
     }
 
-    public void refreshTimeline() {
+    void refreshTimeline() {
         int size = user.getTimelinePostList().size();
         Post[] timelinePosts = new Post[size];
         if (size >= 10) {
@@ -107,7 +104,7 @@ public class UserPanelController implements Initializable {
                 PostController controller = loader.getController();
                 controller.post = post;
                 controller.usernameText.setText(post.getUser().getUsername());
-                controller.karmaCount.setText(String.valueOf(post.getKarma()));
+                controller.karmaCount.setText("Karma: " + post.getKarma());
                 controller.dateTimeText.setText(post.getCreateDateTime());
                 controller.topicText.setText(post.getTitle());
                 controller.textBody.setText(post.getText());

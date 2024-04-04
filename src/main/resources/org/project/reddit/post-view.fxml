@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="250.0" minWidth="-Infinity" prefHeight="300.0" prefWidth="570.0" style="-fx-border-color: lightgray; -fx-border-width: 3px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.PostController">
+<AnchorPane fx:id="postPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="250.0" minWidth="-Infinity" prefHeight="300.0" prefWidth="570.0" style="-fx-border-color: lightgray; -fx-border-width: 3px;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.PostController">
    <children>
       <Label fx:id="usernameText" layoutX="14.0" layoutY="14.0" text="Username" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
          <font>
@@ -26,14 +26,10 @@
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="textBody" alignment="TOP_LEFT" layoutX="30.0" layoutY="65.0" prefHeight="70.0" prefWidth="516.0" text="Text" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+      <Label fx:id="textBody" alignment="TOP_LEFT" layoutX="30.0" layoutY="65.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="70.0" prefWidth="516.0" text="Text" wrapText="true" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
       <Button layoutX="508.0" layoutY="155.0" mnemonicParsing="false" onAction="#showComments" text="Refresh" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="14.0" />
-      <Button layoutX="424.0" layoutY="165.0" mnemonicParsing="false" onAction="#savePost" text="Save" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="78.0" />
-      <Label fx:id="tagsText" layoutX="24.0" layoutY="145.0" text="Tags" AnchorPane.bottomAnchor="128.0" AnchorPane.leftAnchor="14.0">
-         <font>
-            <Font size="13.0" />
-         </font>
-      </Label>
+      <Button layoutX="424.0" layoutY="165.0" mnemonicParsing="false" onAction="#savePost" text="Save" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="74.0" />
+      <Label fx:id="tagsText" layoutX="30.0" layoutY="145.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="17.0" prefWidth="248.0" text="Tags" AnchorPane.bottomAnchor="127.0" AnchorPane.leftAnchor="14.0" />
       <ScrollPane layoutX="35.33333333333333" layoutY="110.0" prefHeight="100.0" prefWidth="505.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="19.0">
          <content>
             <VBox fx:id="commentBox" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="97.0" prefWidth="512.0" spacing="5.0">
@@ -55,8 +51,10 @@
          </content>
       </ScrollPane>
       <Label fx:id="karmaCount" layoutX="396.0" layoutY="23.0" text="Karma" AnchorPane.rightAnchor="130.0" AnchorPane.topAnchor="14.0" />
-      <Button layoutX="353.0" layoutY="142.0" mnemonicParsing="false" onAction="#upVotePost" text="👍" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="128.0" />
-      <Button layoutX="346.0" layoutY="142.0" mnemonicParsing="false" onAction="#downVotePost" text="👎" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="166.0" />
+      <Button layoutX="353.0" layoutY="142.0" mnemonicParsing="false" onAction="#upVotePost" text="👍" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="119.0" />
+      <Button layoutX="346.0" layoutY="142.0" mnemonicParsing="false" onAction="#downVotePost" text="👎" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="152.0" />
+      <Button fx:id="deleteButton" layoutX="310.0" layoutY="143.0" mnemonicParsing="false" onAction="#deletePost" text="Delete" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="185.0" />
+      <Button fx:id="editButton" layoutX="268.0" layoutY="143.0" mnemonicParsing="false" onAction="#editPost" text="Edit" AnchorPane.bottomAnchor="124.0" AnchorPane.rightAnchor="241.0" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
