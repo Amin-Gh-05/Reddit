@@ -7,10 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.project.reddit.content.Comment;
 import org.project.reddit.content.Post;
@@ -42,34 +39,13 @@ public class MainController implements Initializable {
     @FXML
     private ListView<String> trendingPostList;
 
+    @FXML
+    private TabPane tabsPane;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        userCount.setText(String.valueOf(User.getUserCount()));
-        subredditCount.setText(String.valueOf(SubReddit.getSubRedditCount()));
-        postCount.setText(String.valueOf(Post.getPostCount()));
-        commentCount.setText(String.valueOf(Comment.getCommentCount()));
-        trendingPostList.getItems().addAll(Post.getTrendingPosts());
+        refreshAll();
         System.out.println("> main panel got initialized");
-    }
-
-    @FXML
-    void setUserCount(MouseEvent event) {
-        userCount.setText(String.valueOf(User.getUserCount()));
-    }
-
-    @FXML
-    void setSubredditCount(MouseEvent event) {
-        subredditCount.setText(String.valueOf(SubReddit.getSubRedditCount()));
-    }
-
-    @FXML
-    void setPostCount(MouseEvent event) {
-        postCount.setText(String.valueOf(Post.getPostCount()));
-    }
-
-    @FXML
-    void setCommentCount(MouseEvent event) {
-        commentCount.setText(String.valueOf(Comment.getCommentCount()));
     }
 
     @FXML
@@ -91,14 +67,55 @@ public class MainController implements Initializable {
     }
 
     @FXML
-    void refreshTrendingPosts(ActionEvent event) {
-        trendingPostList.getItems().clear();
-        trendingPostList.getItems().addAll(Post.getTrendingPosts());
-        System.out.println("> trending post list refreshed");
+    void refreshAll() {
+        this.userCount.setText(String.valueOf(User.getUserCount()));
+        this.subredditCount.setText(String.valueOf(SubReddit.getSubRedditCount()));
+        this.postCount.setText(String.valueOf(Post.getPostCount()));
+        this.commentCount.setText(String.valueOf(Comment.getCommentCount()));
+        this.trendingPostList.getItems().clear();
+        this.trendingPostList.getItems().addAll(Post.getTrendingPosts());
+        System.out.println("> main panel refreshed");
     }
 
     @FXML
-    void searchAll(ActionEvent event) {
+    void searchAll() {
+        if (searchText.getText().startsWith("r/")) {
+            SubReddit subReddit = SubReddit.findSubReddit(searchText.getText().substring(2));
+            if (subReddit == null) {
+                System.out.println("> Invalid topic");
+                return;
+            }
+            loadSubreddit(subReddit);
+        } else if (searchText.getText().startsWith("u/")) {
+            User user = User.findUserViaUsername(searchText.getText().substring(2));
+            if (user == null) {
+                System.out.println("> Invalid username");
+                return;
+            }
+        } else {
+            System.out.println("> Invalid input");
+        }
+    }
 
+    void loadSubreddit(SubReddit subReddit) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/subreddit-view.fxml"));
+        try {
+            Node node = loader.load();
+            SubredditController controller = loader.getController();
+            controller.subReddit = subReddit;
+            controller.topicText.setText(subReddit.getTopic());
+            controller.memberCount.setText("Members: " + subReddit.getMemberCount());
+            controller.dateText.setText(subReddit.getCreateDateTime().substring(0, 10));
+            controller.joinButton.setVisible(false);
+            controller.createPostPane.setVisible(false);
+            controller.refreshSubreddit();
+            Tab subredditTab = new Tab(subReddit.getTopic());
+            subredditTab.setClosable(true);
+            subredditTab.setContent(node);
+            tabsPane.getTabs().add(subredditTab);
+            tabsPane.getSelectionModel().select(subredditTab);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
     }
 }

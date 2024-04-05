@@ -53,22 +53,22 @@ public class SignupController {
 
     @FXML
     void signUp(ActionEvent event) throws IOException {
-        emailValidity.setText("");
-        usernameValidity.setText("");
-        passwordValidity.setText("");
-        if (!User.validateEmail(emailText.getText())) {
-            emailValidity.setText("Invalid");
+        this.emailValidity.setText("");
+        this.usernameValidity.setText("");
+        this.passwordValidity.setText("");
+        if (!User.validateEmail(this.emailText.getText())) {
+            this.emailValidity.setText("Invalid");
             return;
         }
-        if (!User.validateUsername(usernameText.getText())) {
-            usernameValidity.setText("Invalid");
+        if (!User.validateUsername(this.usernameText.getText())) {
+            this.usernameValidity.setText("Invalid");
             return;
         }
-        if (!User.validatePassword(passwordText.getText())) {
-            passwordValidity.setText("Invalid");
+        if (!User.validatePassword(this.passwordText.getText())) {
+            this.passwordValidity.setText("Invalid");
             return;
         }
-        User.signUp(emailText.getText(), usernameText.getText(), passwordText.getText());
+        User.signUp(this.emailText.getText(), this.usernameText.getText(), this.passwordText.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Sign Up");
         alert.setHeaderText("You're signed up");

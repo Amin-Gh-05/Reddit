@@ -37,16 +37,16 @@ public class LoginController {
 
     @FXML
     void logIn(ActionEvent event) throws IOException {
-        User user = User.findUserViaUsername(usernameText.getText());
+        User user = User.findUserViaUsername(this.usernameText.getText());
         if (user == null) {
-            credValidity.setText("Invalid Username");
+            this.credValidity.setText("Invalid Username");
             return;
         }
-        if (!user.checkPassword(passwordText.getText())) {
-            credValidity.setText("Incorrect Password");
+        if (!user.checkPassword(this.passwordText.getText())) {
+            this.credValidity.setText("Incorrect Password");
             return;
         }
-        UserPanelController.user = user;
+        UserController.user = user;
         ProfileController.user = user;
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/user-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

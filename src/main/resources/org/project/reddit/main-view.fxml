@@ -75,22 +75,22 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="userCount" layoutX="138.0" layoutY="14.0" onMouseClicked="#setUserCount" text="???">
+            <Label fx:id="userCount" layoutX="138.0" layoutY="14.0" text="???">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="subredditCount" layoutX="138.0" layoutY="44.0" onMouseClicked="#setSubredditCount" text="???">
+            <Label fx:id="subredditCount" layoutX="138.0" layoutY="44.0" text="???">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="postCount" layoutX="138.0" layoutY="74.0" onMouseClicked="#setPostCount" text="???">
+            <Label fx:id="postCount" layoutX="138.0" layoutY="74.0" text="???">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="commentCount" layoutX="138.0" layoutY="104.0" onMouseClicked="#setCommentCount" text="???">
+            <Label fx:id="commentCount" layoutX="138.0" layoutY="104.0" text="???">
                <font>
                   <Font size="14.0" />
                </font>
@@ -101,7 +101,7 @@
                      <font>
                         <Font size="13.0" />
                      </font></Label>
-                  <Button mnemonicParsing="false" onAction="#refreshTrendingPosts" text="Refresh">
+                  <Button mnemonicParsing="false" onAction="#refreshAll" text="Refresh">
                      <font>
                         <Font size="13.0" />
                      </font></Button>
@@ -118,7 +118,7 @@
       </AnchorPane>
    </left>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tabsPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Welcome">
             <content>

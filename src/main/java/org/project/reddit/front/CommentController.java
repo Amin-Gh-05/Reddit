@@ -1,6 +1,5 @@
 package org.project.reddit.front;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -34,36 +33,36 @@ public class CommentController {
     public Button deleteButton;
 
     @FXML
-    void voteDownComment(ActionEvent event) {
-        UserPanelController.user.downVote(comment);
-        karmaCount.setText("Karma: " + comment.getKarma());
+    void voteDownComment() {
+        UserController.user.downVote(this.comment);
+        this.karmaCount.setText("Karma: " + this.comment.getKarma());
     }
 
     @FXML
-    void voteUpComment(ActionEvent event) {
-        UserPanelController.user.upVote(comment);
-        karmaCount.setText("Karma: " + comment.getKarma());
+    void voteUpComment() {
+        UserController.user.upVote(this.comment);
+        this.karmaCount.setText("Karma: " + this.comment.getKarma());
     }
 
     @FXML
-    void deleteComment(ActionEvent event) {
-        UserPanelController.user.removeComment(comment, comment.getPost());
+    void deleteComment() {
+        UserController.user.removeComment(this.comment, this.comment.getPost());
     }
 
     @FXML
-    void editComment(ActionEvent event) {
-        String oldText = textBody.getText();
+    void editComment() {
+        String oldText = this.textBody.getText();
         TextField newText = new TextField(oldText);
-        commentPane.getChildren().remove(textBody);
-        commentPane.getChildren().add(newText);
+        this.commentPane.getChildren().remove(this.textBody);
+        this.commentPane.getChildren().add(newText);
         newText.setLayoutX(14);
         newText.setLayoutY(37);
         newText.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
-                UserPanelController.user.changeCommentText(comment, newText.getText());
-                textBody.setText(newText.getText());
-                commentPane.getChildren().remove(newText);
-                commentPane.getChildren().add(textBody);
+                UserController.user.changeCommentText(this.comment, newText.getText());
+                this.textBody.setText(newText.getText());
+                this.commentPane.getChildren().remove(newText);
+                this.commentPane.getChildren().add(this.textBody);
             }
         });
     }

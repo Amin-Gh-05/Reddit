@@ -41,10 +41,14 @@ public class ProfileController implements Initializable {
     @FXML
     private ListView<String> subredditList;
 
+    @FXML
+    private Label karmaCount;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
-        emailText.setText(user.getEmail());
-        usernameText.setText(user.getUsername());
+        this.emailText.setText(user.getEmail());
+        this.usernameText.setText(user.getUsername());
+        this.karmaCount.setText("Karma: " + user.getKarma());
         for (SubReddit subReddit : user.getSubRedditList()) {
             String label = "";
             label += subReddit.getTopic() + " ";
@@ -52,14 +56,14 @@ public class ProfileController implements Initializable {
                 label += "(admin) ";
             }
             label += subReddit.getCreateDateTime();
-            subredditList.getItems().add(label);
+            this.subredditList.getItems().add(label);
         }
         System.out.println("> profile page was initialized");
     }
 
     @FXML
-    void updateEmail(ActionEvent event) {
-        if (!User.validateEmail(newEmailText.getText())) {
+    void updateEmail() {
+        if (!User.validateEmail(this.newEmailText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid email");
             alert.setHeaderText("Email is already used or not valid");
@@ -68,21 +72,21 @@ public class ProfileController implements Initializable {
                 return;
             }
         }
-        user.changeEmail(newEmailText.getText());
+        user.changeEmail(this.newEmailText.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update email");
         alert.setHeaderText("Updation successful");
         alert.setContentText("Your email was successfully changed");
         if (alert.showAndWait().get() == ButtonType.OK) {
-            emailText.setText(newEmailText.getText());
-            newEmailText.clear();
+            this.emailText.setText(this.newEmailText.getText());
+            this.newEmailText.clear();
         }
         System.out.println("> email address was updated");
     }
 
     @FXML
-    void updateUsername(ActionEvent event) {
-        if (!User.validateUsername(newUsernameText.getText())) {
+    void updateUsername() {
+        if (!User.validateUsername(this.newUsernameText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid username");
             alert.setHeaderText("Username is already used or not valid");
@@ -91,21 +95,21 @@ public class ProfileController implements Initializable {
                 return;
             }
         }
-        user.changeUsername(newUsernameText.getText());
+        user.changeUsername(this.newUsernameText.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update username");
         alert.setHeaderText("Updation successful");
         alert.setContentText("Your email was successfully changed");
         if (alert.showAndWait().get() == ButtonType.OK) {
-            usernameText.setText(newUsernameText.getText());
-            newUsernameText.clear();
+            this.usernameText.setText(this.newUsernameText.getText());
+            this.newUsernameText.clear();
         }
         System.out.println("> username was updated");
     }
 
     @FXML
-    void updatePassword(ActionEvent event) {
-        if (!user.checkPassword(oldPasswordText.getText())) {
+    void updatePassword() {
+        if (!user.checkPassword(this.oldPasswordText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Wrong password");
             alert.setHeaderText("Old password wasn't correct");
@@ -114,7 +118,7 @@ public class ProfileController implements Initializable {
                 return;
             }
         }
-        if (!User.validatePassword(newPasswordText.getText())) {
+        if (!User.validatePassword(this.newPasswordText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid password");
             alert.setHeaderText("Password is not valid");
@@ -123,14 +127,14 @@ public class ProfileController implements Initializable {
                 return;
             }
         }
-        user.changePassword(newPasswordText.getText());
+        user.changePassword(this.newPasswordText.getText());
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update password");
         alert.setHeaderText("Updation successful");
         alert.setContentText("Your password was successfully changed");
         if (alert.showAndWait().get() == ButtonType.OK) {
-            oldPasswordText.clear();
-            newPasswordText.clear();
+            this.oldPasswordText.clear();
+            this.newPasswordText.clear();
         }
         System.out.println("> password was updated");
     }
