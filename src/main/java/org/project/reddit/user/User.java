@@ -213,12 +213,37 @@ public class User {
             System.out.println("> member doesn't exist for this subreddit");
             return;
         }
-        if (!subReddit.getAdminList().contains(user)) {
+        if (!subReddit.getAdminList().contains(this)) {
             System.out.println("> access not granted");
+            return;
+        }
+        if (user == this) {
+            System.out.println("> you can't remove yourself");
             return;
         }
         user.leaveSubReddit(subReddit);
         System.out.println("> user was removed by admin");
+    }
+
+    public void addAdmin(User user, SubReddit subReddit) {
+        if (!subReddit.getMemberList().contains(user)) {
+            System.out.println("> member doesn't exist for this subreddit");
+            return;
+        }
+        if (!subReddit.getAdminList().contains(this)) {
+            System.out.println("> access not granted");
+            return;
+        }
+        if (user == this) {
+            System.out.println("> you can't make yourself admin");
+            return;
+        }
+        if (subReddit.getAdminList().contains(user)) {
+            System.out.println("> user is already an admin");
+            return;
+        }
+        subReddit.addAdmin(user);
+        System.out.println("> user was promoted to admin");
     }
 
     public void createPost(String tite, String text, SubReddit subReddit) {
@@ -263,6 +288,15 @@ public class User {
         }
         this.savedPostList.add(post);
         System.out.println("> post was saved");
+    }
+
+    public void unsavePost(Post post) {
+        if (!this.savedPostList.contains(post)) {
+            System.out.println("> post is not saved");
+            return;
+        }
+        this.savedPostList.remove(post);
+        System.out.println("> post was unsaved");
     }
 
     public void addPostToTimeline(Post post) {

@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="commentPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="492.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.CommentController">
+<AnchorPane fx:id="commentPane" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="90.0" prefWidth="485.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.project.reddit.front.CommentController">
    <children>
       <Label fx:id="usernameText" layoutX="14.0" layoutY="14.0" text="Username" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" />
       <Label fx:id="dateTimeText" layoutX="400.0" layoutY="14.0" text="Date and Time" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />

@@ -26,6 +26,10 @@ public class SubReddit {
         this.createDateTime = formatDateTime(LocalDateTime.now());
     }
 
+    public static List<SubReddit> getSubRedditList() {
+        return new ArrayList<>(subRedditList);
+    }
+
     public static int getSubRedditCount() {
         System.out.println("> subreddit count refreshed");
         return subRedditCount;
@@ -79,6 +83,7 @@ public class SubReddit {
 
     public void removeMember(User user) {
         this.memberList.remove(user);
+        this.adminList.remove(user);
         this.memberCount--;
         System.out.println("> member was removed");
     }

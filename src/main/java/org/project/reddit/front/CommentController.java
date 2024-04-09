@@ -11,6 +11,7 @@ import org.project.reddit.content.Comment;
 public class CommentController {
     public Comment comment;
 
+    public PostController controller;
     @FXML
     public AnchorPane commentPane;
 
@@ -32,6 +33,8 @@ public class CommentController {
     @FXML
     public Button deleteButton;
 
+    int editClick = 0;
+
     @FXML
     void voteDownComment() {
         UserController.user.downVote(this.comment);
@@ -47,10 +50,16 @@ public class CommentController {
     @FXML
     void deleteComment() {
         UserController.user.removeComment(this.comment, this.comment.getPost());
+        controller.refreshComments();
     }
 
     @FXML
     void editComment() {
+        if (editClick > 0) {
+            System.out.println("> still in edit progress");
+            return;
+        }
+        editClick++;
         String oldText = this.textBody.getText();
         TextField newText = new TextField(oldText);
         this.commentPane.getChildren().remove(this.textBody);
@@ -63,6 +72,7 @@ public class CommentController {
                 this.textBody.setText(newText.getText());
                 this.commentPane.getChildren().remove(newText);
                 this.commentPane.getChildren().add(this.textBody);
+                editClick--;
             }
         });
     }

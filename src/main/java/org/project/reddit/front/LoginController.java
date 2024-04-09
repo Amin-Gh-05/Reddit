@@ -32,6 +32,7 @@ public class LoginController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> returned to main panel");
     }
 
@@ -52,6 +53,7 @@ public class LoginController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> redirect to user panel");
     }
 
@@ -61,6 +63,7 @@ public class LoginController {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> redirect to signup page");
     }
 }

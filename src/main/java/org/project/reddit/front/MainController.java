@@ -54,6 +54,7 @@ public class MainController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> redirect to signup page");
     }
 
@@ -63,6 +64,7 @@ public class MainController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> redirect to login page");
     }
 
@@ -92,6 +94,7 @@ public class MainController implements Initializable {
                 System.out.println("> Invalid username");
                 return;
             }
+            loadUser(user);
         } else {
             System.out.println("> Invalid input");
         }
@@ -108,12 +111,31 @@ public class MainController implements Initializable {
             controller.dateText.setText(subReddit.getCreateDateTime().substring(0, 10));
             controller.joinButton.setVisible(false);
             controller.createPostPane.setVisible(false);
-            controller.refreshSubreddit();
+            controller.refreshAll();
             Tab subredditTab = new Tab(subReddit.getTopic());
             subredditTab.setClosable(true);
             subredditTab.setContent(node);
             tabsPane.getTabs().add(subredditTab);
             tabsPane.getSelectionModel().select(subredditTab);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    void loadUser(User user) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/show-view.fxml"));
+        try {
+            Node node = loader.load();
+            ShowController controller = loader.getController();
+            controller.user = user;
+            controller.usernameText.setText(user.getUsername());
+            controller.karmaCount.setText("Karma: " + user.getKarma());
+            controller.refreshUser();
+            Tab userTab = new Tab(user.getUsername());
+            userTab.setClosable(true);
+            userTab.setContent(node);
+            this.tabsPane.getTabs().add(userTab);
+            this.tabsPane.getSelectionModel().select(userTab);
         } catch (IOException e) {
             throw new RuntimeException();
         }

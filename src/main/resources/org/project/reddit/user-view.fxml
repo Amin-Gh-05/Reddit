@@ -116,12 +116,38 @@
         <tabs>
           <Tab text="Timeline">
                <content>
-                  <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="588.0">
+                  <ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="588.0" vbarPolicy="ALWAYS">
                      <content>
-                        <VBox fx:id="postBox" alignment="TOP_CENTER" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="588.0" spacing="10.0">
+                        <VBox fx:id="postBox" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="433.0" prefWidth="588.0" spacing="10.0">
                            <padding>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </padding>
+                           <children>
+                              <HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="60.0" prefWidth="565.0" spacing="15.0">
+                                 <children>
+                                    <Label text="Create Subreddit">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                    <TextField fx:id="topicText" promptText="Topic">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </TextField>
+                                    <Button mnemonicParsing="false" onAction="#createSubreddit" text="Create">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Button>
+                                    <Label fx:id="invalidAlert" text="Invalid" textFill="RED">
+                                       <font>
+                                          <Font size="13.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
                         </VBox>
                      </content>
                   </ScrollPane>

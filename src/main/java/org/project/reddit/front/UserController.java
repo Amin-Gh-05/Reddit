@@ -43,6 +43,12 @@ public class UserController implements Initializable {
     @FXML
     private TabPane tabsPane;
 
+    @FXML
+    private TextField topicText;
+
+    @FXML
+    private Label invalidAlert;
+
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         refreshAll();
@@ -62,6 +68,7 @@ public class UserController implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
             stage.setScene(scene);
+            stage.setResizable(false);
             System.out.println("> redirect to main panel");
         }
     }
@@ -81,6 +88,7 @@ public class UserController implements Initializable {
                 System.out.println("> Invalid username");
                 return;
             }
+            loadUser(user);
         } else {
             System.out.println("> Invalid input");
         }
@@ -92,6 +100,7 @@ public class UserController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        stage.setResizable(false);
         System.out.println("> redirect to profile panel");
     }
 
@@ -108,11 +117,26 @@ public class UserController implements Initializable {
         this.savedPostList.getItems().clear();
         this.savedPostList.getItems().addAll(savedPosts);
         refreshTimeline();
+        invalidAlert.setVisible(false);
         System.out.println("> user panel got refreshed");
     }
 
+    @FXML
+    void createSubreddit() {
+        for (SubReddit subReddit : SubReddit.getSubRedditList()) {
+            if (subReddit.getTopic().equals(topicText.getText())) {
+                System.out.println("> subreddit already exists");
+                topicText.setVisible(true);
+                return;
+            }
+            user.createSubReddit(topicText.getText());
+            topicText.clear();
+            refreshAll();
+        }
+    }
+
     void refreshTimeline() {
-        postBox.getChildren().clear();
+        postBox.getChildren().remove(1, postBox.getChildren().size());
         int size = user.getTimelinePostList().size();
         Post[] timelinePosts = new Post[size];
         if (size >= 10) {
@@ -135,6 +159,7 @@ public class UserController implements Initializable {
             Node node = loader.load();
             PostController controller = loader.getController();
             controller.post = post;
+            controller.userController = this;
             controller.usernameText.setText(post.getUser().getUsername());
             controller.karmaCount.setText("Karma: " + post.getKarma());
             controller.dateTimeText.setText(post.getCreateDateTime());
@@ -169,12 +194,31 @@ public class UserController implements Initializable {
             } else {
                 controller.leaveButton.setVisible(false);
             }
-            controller.refreshSubreddit();
+            controller.refreshAll();
             Tab subredditTab = new Tab(subReddit.getTopic());
             subredditTab.setClosable(true);
             subredditTab.setContent(node);
             this.tabsPane.getTabs().add(subredditTab);
             this.tabsPane.getSelectionModel().select(subredditTab);
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+    }
+
+    void loadUser(User user) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/show-view.fxml"));
+        try {
+            Node node = loader.load();
+            ShowController controller = loader.getController();
+            controller.user = user;
+            controller.usernameText.setText(user.getUsername());
+            controller.karmaCount.setText("Karma: " + user.getKarma());
+            controller.refreshUser();
+            Tab userTab = new Tab(user.getUsername());
+            userTab.setClosable(true);
+            userTab.setContent(node);
+            this.tabsPane.getTabs().add(userTab);
+            this.tabsPane.getSelectionModel().select(userTab);
         } catch (IOException e) {
             throw new RuntimeException();
         }

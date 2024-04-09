@@ -18,6 +18,10 @@ import java.io.IOException;
 public class PostController {
     public Post post;
 
+    public UserController userController;
+
+    public ShowController showController;
+
     @FXML
     public AnchorPane postPane;
 
@@ -42,47 +46,82 @@ public class PostController {
     public Button deleteButton;
     @FXML
     public Button editButton;
+
+    @FXML
+    public Button saveButton;
+
+    @FXML
+    public Button likeButton;
+
+    @FXML
+    public Button dislikeButton;
+
     @FXML
     public VBox commentBox;
     @FXML
     public TextArea newCommentText;
 
+    int editClick = 0;
+
     @FXML
     void savePost(ActionEvent event) {
-        UserController.user.savePost(this.post);
+        if (!UserController.user.getSavedPostList().contains(this.post)) {
+            UserController.user.savePost(this.post);
+        } else {
+            UserController.user.unsavePost(this.post);
+        }
+        if (userController != null) {
+            userController.refreshAll();
+        }
+        if (showController != null) {
+            showController.refreshUser();
+        }
+
     }
 
     @FXML
     void upVotePost() {
         UserController.user.upVote(this.post);
         karmaCount.setText("Karma: " + this.post.getKarma());
+        if (showController != null) {
+            showController.karmaCount.setText("Karma: " + showController.user.getKarma());
+        }
     }
 
     @FXML
     void downVotePost() {
         UserController.user.downVote(this.post);
         karmaCount.setText("Karma: " + this.post.getKarma());
+        if (showController != null) {
+            showController.karmaCount.setText("Karma: " + showController.user.getKarma());
+        }
     }
 
     @FXML
     void sendComment() {
         UserController.user.createComment(this.newCommentText.getText(), this.post);
         this.newCommentText.clear();
-    }
-
-    @FXML
-    void showComments() {
-        this.commentBox.getChildren().remove(1, this.commentBox.getChildren().size());
-        refreshComments();
+        this.refreshComments();
     }
 
     @FXML
     void deletePost() {
         UserController.user.removePost(this.post, this.post.getSubReddit());
+        if (userController != null) {
+            userController.refreshAll();
+        }
+        if (showController != null) {
+            showController.refreshUser();
+        }
     }
 
     @FXML
     void editPost() {
+        if (editClick > 0) {
+            System.out.println("> still in edit progress");
+            return;
+        }
+        editClick++;
         String oldText = this.textBody.getText();
         TextArea newText = new TextArea(oldText);
         this.postPane.getChildren().remove(this.textBody);
@@ -90,27 +129,31 @@ public class PostController {
         newText.setLayoutX(22);
         newText.setLayoutY(65);
         newText.setPrefWidth(516);
-        newText.setPrefHeight(70);
+        newText.setPrefHeight(20);
         newText.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 UserController.user.changePostText(this.post, newText.getText());
                 this.textBody.setText(newText.getText());
                 this.postPane.getChildren().remove(newText);
                 this.postPane.getChildren().add(this.textBody);
+                editClick--;
             }
         });
     }
 
-    void refreshComments() {
+    @FXML
+    public void refreshComments() {
+        this.commentBox.getChildren().remove(1, this.commentBox.getChildren().size());
         int size = this.post.getCommentList().size();
         Comment[] postComments = new Comment[size];
         for (int i = size - 1; i >= 0; i--) {
             postComments[i] = this.post.getCommentList().get(i);
         }
         for (Comment comment : postComments) {
-            this.postPane.getChildren().add(getCommentLayout(comment));
+            this.commentBox.getChildren().add(getCommentLayout(comment));
         }
     }
+
 
     Node getCommentLayout(Comment comment) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/comment-view.fxml"));
@@ -119,6 +162,7 @@ public class PostController {
             CommentController controller = loader.getController();
             controller.comment = comment;
             controller.usernameText.setText(comment.getUser().getUsername());
+            controller.controller = this;
             controller.textBody.setText(comment.getText());
             controller.dateTimeText.setText(comment.getCreateDateTime());
             controller.karmaCount.setText("Karma: " + comment.getKarma());
