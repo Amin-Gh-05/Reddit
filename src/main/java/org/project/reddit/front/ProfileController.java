@@ -19,41 +19,37 @@ import java.util.ResourceBundle;
 
 public class ProfileController implements Initializable {
     public static User user;
-
     @FXML
     private Label emailText;
-
     @FXML
     private TextField newEmailText;
-
     @FXML
     private Label usernameText;
-
     @FXML
     private TextField newUsernameText;
-
     @FXML
     private PasswordField oldPasswordText;
-
     @FXML
     private PasswordField newPasswordText;
-
     @FXML
     private ListView<String> subredditList;
-
     @FXML
     private Label karmaCount;
 
+    // initialize the profile panel
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
+        // set the user details
         this.emailText.setText(user.getEmail());
         this.usernameText.setText(user.getUsername());
         this.karmaCount.setText("Karma: " + user.getKarma());
+        // show all subreddits joined
         for (SubReddit subReddit : user.getSubRedditList()) {
             String label = "";
             label += subReddit.getTopic() + " ";
+            // add admin label as needed
             if (subReddit.getAdminList().contains(user)) {
-                label += "(admin) ";
+                label += "(admin)  ";
             }
             label += subReddit.getCreateDateTime();
             this.subredditList.getItems().add(label);
@@ -61,8 +57,10 @@ public class ProfileController implements Initializable {
         System.out.println("> profile page was initialized");
     }
 
+    // change email address button
     @FXML
     void updateEmail() {
+        // check the new email validity and show alerts as needed
         if (!User.validateEmail(this.newEmailText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid email");
@@ -73,6 +71,7 @@ public class ProfileController implements Initializable {
             }
         }
         user.changeEmail(this.newEmailText.getText());
+        // show alert for succession of progress
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update email");
         alert.setHeaderText("Updation successful");
@@ -84,8 +83,10 @@ public class ProfileController implements Initializable {
         System.out.println("> email address was updated");
     }
 
+    // change username button
     @FXML
     void updateUsername() {
+        // check the new username validity and show alert as needed
         if (!User.validateUsername(this.newUsernameText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid username");
@@ -96,6 +97,7 @@ public class ProfileController implements Initializable {
             }
         }
         user.changeUsername(this.newUsernameText.getText());
+        // show alert for succession of progress
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update username");
         alert.setHeaderText("Updation successful");
@@ -109,6 +111,7 @@ public class ProfileController implements Initializable {
 
     @FXML
     void updatePassword() {
+        // check the old password validity and show alert as needed
         if (!user.checkPassword(this.oldPasswordText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Wrong password");
@@ -118,6 +121,7 @@ public class ProfileController implements Initializable {
                 return;
             }
         }
+        // check the new password validity and show alert as needed
         if (!User.validatePassword(this.newPasswordText.getText())) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Invalid password");
@@ -128,6 +132,7 @@ public class ProfileController implements Initializable {
             }
         }
         user.changePassword(this.newPasswordText.getText());
+        // show alert for succession of progress
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Update password");
         alert.setHeaderText("Updation successful");
@@ -139,8 +144,10 @@ public class ProfileController implements Initializable {
         System.out.println("> password was updated");
     }
 
+    // return to main panel button
     @FXML
     void backToPanel(ActionEvent event) throws IOException {
+        // change scene
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/user-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

@@ -18,40 +18,48 @@ public class MainApplication extends Application {
         launch(args);
     }
 
+    // load data before launching app
     @Override
     public void init() throws Exception {
+        // load users from User.ser if possible
         try {
             FileInputStream fileIn = new FileInputStream("Users.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             User.userList = (ArrayList<User>) in.readObject();
             in.close();
             fileIn.close();
+            User.userCount = User.userList.size();
             System.out.println("> user-list was deserialized");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // load subreddits from Subreddits.ser if possible
         try {
             FileInputStream fileIn = new FileInputStream("Subreddits.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             SubReddit.subRedditList = (ArrayList<SubReddit>) in.readObject();
             in.close();
             fileIn.close();
+            SubReddit.subRedditCount = SubReddit.subRedditList.size();
             System.out.println("> subreddit-list was deserialized");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // load posts from Posts.ser if possible
         try {
             FileInputStream fileIn = new FileInputStream("Posts.ser");
             ObjectInputStream in = new ObjectInputStream(fileIn);
             Post.postList = (ArrayList<Post>) in.readObject();
             in.close();
             fileIn.close();
+            Post.postCount = Post.postList.size();
             System.out.println("> post-list was deserialized");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    // start app with initializing the main panel
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
@@ -63,8 +71,10 @@ public class MainApplication extends Application {
         stage.show();
     }
 
+    // save data while closing the app
     @Override
     public void stop() {
+        // save users to Users.ser if possible
         try {
             FileOutputStream fileOut = new FileOutputStream("Users.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -75,6 +85,7 @@ public class MainApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // save subreddits to Subreddits.ser if possible
         try {
             FileOutputStream fileOut = new FileOutputStream("Subreddits.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);
@@ -85,6 +96,7 @@ public class MainApplication extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // save posts to Posts.ser if possible
         try {
             FileOutputStream fileOut = new FileOutputStream("Posts.ser");
             ObjectOutputStream out = new ObjectOutputStream(fileOut);

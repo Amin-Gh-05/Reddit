@@ -17,115 +17,122 @@ import java.io.IOException;
 
 public class PostController {
     public Post post;
-
+    // controller (depends on the panel which post is shown)
     public UserController userController;
-
     public ShowController showController;
-
+    public SubredditController subredditController;
     @FXML
     public AnchorPane postPane;
-
     @FXML
     public Label usernameText;
-
     @FXML
     public Label karmaCount;
-
     @FXML
     public Label dateTimeText;
-
     @FXML
     public Label topicText;
-
     @FXML
     public Label textBody;
-
     @FXML
     public Label tagsText;
-
     @FXML
     public Button deleteButton;
-
     @FXML
     public Button editButton;
-
     @FXML
     public Button saveButton;
-
     @FXML
     public Button likeButton;
-
     @FXML
     public Button dislikeButton;
-
     @FXML
     public VBox commentBox;
-
     @FXML
     public TextArea newCommentText;
-
+    // times the edit button is clicked (to prevent several edits at the same time)
     int editClick = 0;
 
+    // save or unsave post if possible
     @FXML
     void savePost(ActionEvent event) {
+        // save post if it's not saved
         if (!UserController.user.getSavedPostList().contains(this.post)) {
             UserController.user.savePost(this.post);
-        } else {
+        }
+        // unsave post if it's already saved
+        else {
             UserController.user.unsavePost(this.post);
         }
+        // refresh panels
         if (userController != null) {
             userController.refreshAll();
         }
         if (showController != null) {
-            showController.refreshUser();
+            showController.refreshAll();
         }
-
+        if (subredditController != null) {
+            subredditController.refreshAll();
+        }
     }
 
+    // upvote post button
     @FXML
     void upVotePost() {
         UserController.user.upVote(this.post);
         karmaCount.setText("Karma: " + this.post.getKarma());
+        // refresh karma if in the user show panel
         if (showController != null) {
             showController.karmaCount.setText("Karma: " + showController.user.getKarma());
         }
     }
 
+    // downvote post button
     @FXML
     void downVotePost() {
         UserController.user.downVote(this.post);
         karmaCount.setText("Karma: " + this.post.getKarma());
+        // refresh karma if in the user show panel
         if (showController != null) {
             showController.karmaCount.setText("Karma: " + showController.user.getKarma());
         }
     }
 
+    // create a new comment for the post
     @FXML
     void sendComment() {
         UserController.user.createComment(this.newCommentText.getText(), this.post);
+        // refresh comments panel
         this.newCommentText.clear();
         this.refreshComments();
     }
 
+    // delete a post if possible
     @FXML
     void deletePost() {
         UserController.user.removePost(this.post, this.post.getSubReddit());
+        // refresh panels
         if (userController != null) {
             userController.refreshAll();
         }
         if (showController != null) {
-            showController.refreshUser();
+            showController.refreshAll();
+        }
+        if (subredditController != null) {
+            subredditController.refreshAll();
         }
     }
 
+    // edit post text if possible
     @FXML
     void editPost() {
+        // checks if edit button is already pressed
         if (editClick > 0) {
             System.out.println("> still in edit progress");
             return;
         }
         editClick++;
         String oldText = this.textBody.getText();
+        // create a text field to edit text
         TextArea newText = new TextArea(oldText);
         this.postPane.getChildren().remove(this.textBody);
         this.postPane.getChildren().add(newText);
@@ -133,6 +140,7 @@ public class PostController {
         newText.setLayoutY(65);
         newText.setPrefWidth(516);
         newText.setPrefHeight(20);
+        // confirm editation progress if enter is pressed
         newText.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 UserController.user.changePostText(this.post, newText.getText());
@@ -144,31 +152,37 @@ public class PostController {
         });
     }
 
+    // refresh comments panel
     @FXML
     public void refreshComments() {
+        // clear all comments
         this.commentBox.getChildren().remove(1, this.commentBox.getChildren().size());
         int size = this.post.getCommentList().size();
         Comment[] postComments = new Comment[size];
         for (int i = size - 1; i >= 0; i--) {
             postComments[i] = this.post.getCommentList().get(i);
         }
+        // add all comments to screen
         for (Comment comment : postComments) {
             this.commentBox.getChildren().add(getCommentLayout(comment));
         }
     }
 
-
+    // load comment layout and return a node
     Node getCommentLayout(Comment comment) {
+        // load fxml file of comment layout
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/project/reddit/comment-view.fxml"));
         try {
             Node node = loader.load();
             CommentController controller = loader.getController();
+            // set comment details
             controller.comment = comment;
             controller.usernameText.setText(comment.getUser().getUsername());
-            controller.controller = this;
+            controller.postController = this;
             controller.textBody.setText(comment.getText());
             controller.dateTimeText.setText(comment.getCreateDateTime());
             controller.karmaCount.setText("Karma: " + comment.getKarma());
+            // disable some actions as needed
             if (!comment.getUser().equals(UserController.user)) {
                 controller.editButton.setVisible(false);
             }

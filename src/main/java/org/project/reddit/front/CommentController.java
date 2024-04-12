@@ -9,32 +9,28 @@ import javafx.scene.layout.AnchorPane;
 import org.project.reddit.content.Comment;
 
 public class CommentController {
+    // comment of this controller
     public Comment comment;
-
-    public PostController controller;
+    // post of this comment
+    public PostController postController;
     @FXML
     public AnchorPane commentPane;
-
     @FXML
     public Label usernameText;
-
     @FXML
     public Label textBody;
-
     @FXML
     public Label dateTimeText;
-
     @FXML
     public Label karmaCount;
-
     @FXML
     public Button editButton;
-
     @FXML
     public Button deleteButton;
-
+    // times the edit button is clicked (to prevent several edits at the same time)
     int editClick = 0;
 
+    // voteup/votedown comment buttons
     @FXML
     void voteDownComment() {
         UserController.user.downVote(this.comment);
@@ -47,25 +43,30 @@ public class CommentController {
         this.karmaCount.setText("Karma: " + this.comment.getKarma());
     }
 
+    // delete comment button
     @FXML
     void deleteComment() {
         UserController.user.removeComment(this.comment, this.comment.getPost());
-        controller.refreshComments();
+        postController.refreshComments();
     }
 
+    // edit text of comment button
     @FXML
     void editComment() {
+        // checks if edit button is already pressed and process is going on
         if (editClick > 0) {
             System.out.println("> still in edit progress");
             return;
         }
         editClick++;
         String oldText = this.textBody.getText();
+        // add a new text field for editation
         TextField newText = new TextField(oldText);
         this.commentPane.getChildren().remove(this.textBody);
         this.commentPane.getChildren().add(newText);
         newText.setLayoutX(14);
         newText.setLayoutY(37);
+        // if enter is pressed, editation is confirmed
         newText.setOnKeyPressed(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 UserController.user.changeCommentText(this.comment, newText.getText());

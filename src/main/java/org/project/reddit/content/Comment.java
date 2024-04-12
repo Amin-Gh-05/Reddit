@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Comment implements Serializable {
-    private static int commentCount = 0;
     private final Post post;
     private final User user;
     private final String createDateTime;
@@ -15,7 +14,6 @@ public class Comment implements Serializable {
     private int karma;
 
     public Comment(String text, Post post, User user) {
-        commentCount++;
         this.text = text;
         this.post = post;
         this.user = user;
@@ -23,16 +21,13 @@ public class Comment implements Serializable {
         this.createDateTime = formatDateTime(LocalDateTime.now());
     }
 
-    public static int getCommentCount() {
-        System.out.println("> comment count refreshed");
-        return commentCount;
-    }
-
+    // format date and time of creating subreddit and return a string
     private String formatDateTime(LocalDateTime dateTime) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return dateTime.format(myFormatObj);
     }
 
+    // getter methods
     public Post getPost() {
         return this.post;
     }
@@ -53,11 +48,13 @@ public class Comment implements Serializable {
         return this.karma;
     }
 
+    // edit text of the comment
     public void changeText(String newText) {
         this.text = newText;
         System.out.println("> comment's text was changed");
     }
 
+    // increase or decrease the karma of comment
     public void increaseKarma() {
         this.karma++;
         System.out.println("> comment's karma was increased");

@@ -10,8 +10,10 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Post implements Serializable {
+    // static list to store posts and their count
     public static List<Post> postList = new ArrayList<>();
-    private static int postCount = postList.size();
+    public static int postCount = 0;
+
     private final List<Comment> commentList = new ArrayList<>();
     private final List<String> tagList = new ArrayList<>();
     private final SubReddit subReddit;
@@ -21,6 +23,7 @@ public class Post implements Serializable {
     private String text;
     private int karma;
 
+    // tag-free version constructor
     public Post(String title, String text, SubReddit subReddit, User user) {
         this.title = title;
         this.text = text;
@@ -32,8 +35,8 @@ public class Post implements Serializable {
         postCount = postList.size();
     }
 
+    // tag version constructor
     public Post(List<String> tagList, String title, String text, SubReddit subReddit, User user) {
-        postCount++;
         this.tagList.addAll(tagList);
         this.title = title;
         this.text = text;
@@ -45,15 +48,13 @@ public class Post implements Serializable {
         postCount = postList.size();
     }
 
-    public static int getPostCount() {
-        System.out.println("> post count refreshed");
-        return postCount;
-    }
-
+    // get an array of posts with best karma
     public static String[] getTrendingPosts() {
+        // sort posts considering karma
         postList.sort(Comparator.comparingInt(Post::getKarma).reversed());
         int size = postList.size();
         String[] trendingPostTitle = new String[size];
+        // return the top 10
         if (size >= 10) {
             for (int i = 0; i < 5; i++) {
                 trendingPostTitle[i] = postList.get(i).title;
@@ -66,11 +67,13 @@ public class Post implements Serializable {
         return trendingPostTitle;
     }
 
+    // format date and time of creating subreddit and return a string
     private String formatDateTime(LocalDateTime dateTime) {
         DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         return dateTime.format(myFormatObj);
     }
 
+    // getter methods
     public List<Comment> getCommentList() {
         return new ArrayList<>(commentList);
     }
@@ -103,16 +106,19 @@ public class Post implements Serializable {
         return this.karma;
     }
 
+    // add a new comment to the post
     public void addComment(Comment comment) {
         this.commentList.add(comment);
         System.out.println("> comment was added");
     }
 
+    // remove a comment from the post
     public void removeComment(Comment comment) {
         this.commentList.remove(comment);
         System.out.println("> comment was removed");
     }
 
+    // increase or decrease the karma of post
     public void increaseKarma() {
         this.karma++;
         System.out.println("> post's karma was increased");
@@ -123,6 +129,7 @@ public class Post implements Serializable {
         System.out.println("> post's karma was decreased");
     }
 
+    // edit text of post
     public void changeText(String newText) {
         this.text = newText;
         System.out.println("> text was changed");
