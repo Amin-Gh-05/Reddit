@@ -164,6 +164,7 @@ public class SubredditController {
             } else {
                 controller.tagsText.setVisible(false);
             }
+            controller.refreshComments();
             return node;
         } catch (IOException e) {
             throw new RuntimeException();

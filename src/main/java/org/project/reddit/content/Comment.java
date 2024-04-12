@@ -2,10 +2,11 @@ package org.project.reddit.content;
 
 import org.project.reddit.user.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Comment {
+public class Comment implements Serializable {
     private static int commentCount = 0;
     private final Post post;
     private final User user;

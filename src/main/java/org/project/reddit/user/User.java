@@ -5,15 +5,16 @@ import org.project.reddit.content.Comment;
 import org.project.reddit.content.Post;
 import org.project.reddit.content.SubReddit;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class User {
-    private static final List<User> userList = new ArrayList<>();
-    private static int userCount = 0;
+public class User implements Serializable {
+    public static List<User> userList = new ArrayList<>();
+    private static int userCount = userList.size();
     private final UUID id;
     private final List<SubReddit> subRedditList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
@@ -30,14 +31,13 @@ public class User {
     private int karma;
 
     public User(String email, String username, String password) {
-        userCount++;
         this.id = generateId();
         this.email = email;
         this.username = username;
         this.password = DigestUtils.sha256Hex(password);
         this.karma = 0;
-        this.createSubReddit("test");
-        this.createPost("test", "test", this.subRedditList.getFirst());
+        userList.add(this);
+        userCount = userList.size();
     }
 
     public static int getUserCount() {
@@ -127,7 +127,6 @@ public class User {
             return;
         }
         User user = new User(email, username, password);
-        userList.add(user);
         System.out.println("> user was signed up");
     }
 
@@ -191,17 +190,19 @@ public class User {
     public void joinSubReddit(SubReddit subReddit) {
         this.subRedditList.add(subReddit);
         subReddit.addMember(this);
+        this.timelinePostList.addAll(subReddit.getPostList());
         System.out.println("> user joined subreddit");
     }
 
     public void leaveSubReddit(SubReddit subReddit) {
         this.subRedditList.remove(subReddit);
         subReddit.removeMember(this);
+        this.timelinePostList.removeAll(subReddit.getPostList());
         System.out.println("> user left subreddit");
     }
 
     public void createSubReddit(String topic) {
-        SubReddit subReddit = new SubReddit(topic, this);
+        SubReddit subReddit = new SubReddit(topic);
         this.subRedditList.add(subReddit);
         subReddit.addMember(this);
         subReddit.addAdmin(this);

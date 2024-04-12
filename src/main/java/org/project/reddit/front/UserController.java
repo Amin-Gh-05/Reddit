@@ -123,16 +123,16 @@ public class UserController implements Initializable {
 
     @FXML
     void createSubreddit() {
-        for (SubReddit subReddit : SubReddit.getSubRedditList()) {
+        for (SubReddit subReddit : SubReddit.subRedditList) {
             if (subReddit.getTopic().equals(topicText.getText())) {
                 System.out.println("> subreddit already exists");
-                topicText.setVisible(true);
+                invalidAlert.setVisible(true);
                 return;
             }
-            user.createSubReddit(topicText.getText());
-            topicText.clear();
-            refreshAll();
         }
+        user.createSubReddit(topicText.getText());
+        topicText.clear();
+        refreshAll();
     }
 
     void refreshTimeline() {
@@ -174,6 +174,7 @@ public class UserController implements Initializable {
             } else {
                 controller.tagsText.setVisible(false);
             }
+            controller.refreshComments();
             return node;
         } catch (IOException e) {
             throw new RuntimeException(e);

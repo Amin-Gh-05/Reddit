@@ -42,8 +42,10 @@ public class PostController {
 
     @FXML
     public Label tagsText;
+
     @FXML
     public Button deleteButton;
+
     @FXML
     public Button editButton;
 
@@ -58,6 +60,7 @@ public class PostController {
 
     @FXML
     public VBox commentBox;
+
     @FXML
     public TextArea newCommentText;
 

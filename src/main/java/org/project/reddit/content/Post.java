@@ -2,15 +2,16 @@ package org.project.reddit.content;
 
 import org.project.reddit.user.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Post {
-    private static final List<Post> postList = new ArrayList<>();
-    private static int postCount = 0;
+public class Post implements Serializable {
+    public static List<Post> postList = new ArrayList<>();
+    private static int postCount = postList.size();
     private final List<Comment> commentList = new ArrayList<>();
     private final List<String> tagList = new ArrayList<>();
     private final SubReddit subReddit;
@@ -21,7 +22,6 @@ public class Post {
     private int karma;
 
     public Post(String title, String text, SubReddit subReddit, User user) {
-        postCount++;
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
@@ -29,6 +29,7 @@ public class Post {
         this.karma = 0;
         postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
+        postCount = postList.size();
     }
 
     public Post(List<String> tagList, String title, String text, SubReddit subReddit, User user) {
@@ -41,6 +42,7 @@ public class Post {
         this.karma = 0;
         postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
+        postCount = postList.size();
     }
 
     public static int getPostCount() {

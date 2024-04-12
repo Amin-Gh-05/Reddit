@@ -2,14 +2,15 @@ package org.project.reddit.content;
 
 import org.project.reddit.user.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubReddit {
-    private static final List<SubReddit> subRedditList = new ArrayList<>();
-    private static int subRedditCount = 0;
+public class SubReddit implements Serializable {
+    public static List<SubReddit> subRedditList = new ArrayList<>();
+    private static int subRedditCount = subRedditList.size();
     private final List<User> memberList = new ArrayList<>();
     private final List<Post> postList = new ArrayList<>();
     private final List<User> adminList = new ArrayList<>();
@@ -17,17 +18,12 @@ public class SubReddit {
     private final String createDateTime;
     private int memberCount;
 
-    public SubReddit(String topic, User admin) {
-        subRedditCount++;
+    public SubReddit(String topic) {
         this.topic = topic;
-        this.adminList.add(admin);
         this.memberCount = 0;
         subRedditList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
-    }
-
-    public static List<SubReddit> getSubRedditList() {
-        return new ArrayList<>(subRedditList);
+        subRedditCount = subRedditList.size();
     }
 
     public static int getSubRedditCount() {
@@ -78,6 +74,9 @@ public class SubReddit {
     public void addMember(User user) {
         this.memberList.add(user);
         this.memberCount++;
+        if (memberCount == 1) {
+            addAdmin(user);
+        }
         System.out.println("> member was added");
     }
 

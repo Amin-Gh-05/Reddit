@@ -6,7 +6,7 @@
       <GradleProjectSettings>
         <option name="distributionType" value="LOCAL" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:/Program Files/Gradle/gradle-8.6" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../Public/Downloads/gradle-8.6" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
