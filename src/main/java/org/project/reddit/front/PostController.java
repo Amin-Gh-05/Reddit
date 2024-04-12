@@ -12,8 +12,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import org.project.reddit.content.Comment;
 import org.project.reddit.content.Post;
+import org.project.reddit.user.User;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class PostController {
     public Post post;
@@ -177,17 +179,24 @@ public class PostController {
             CommentController controller = loader.getController();
             // set comment details
             controller.comment = comment;
-            controller.usernameText.setText(comment.getUser().getUsername());
+            controller.usernameText.setText(Objects.requireNonNull(User.findUserViaId(comment.getUser())).getUsername());
             controller.postController = this;
             controller.textBody.setText(comment.getText());
             controller.dateTimeText.setText(comment.getCreateDateTime());
             controller.karmaCount.setText("Karma: " + comment.getKarma());
             // disable some actions as needed
-            if (!comment.getUser().equals(UserController.user)) {
+            if (UserController.user != null) {
+                if (!comment.getUser().equals(UserController.user.getId())) {
+                    controller.editButton.setVisible(false);
+                }
+                if (!comment.getUser().equals(UserController.user.getId()) && !comment.getPost().getSubReddit().getAdminList().contains(UserController.user.getId())) {
+                    controller.deleteButton.setVisible(false);
+                }
+            } else {
                 controller.editButton.setVisible(false);
-            }
-            if (!comment.getUser().equals(UserController.user) && !comment.getPost().getSubReddit().getAdminList().contains(UserController.user)) {
                 controller.deleteButton.setVisible(false);
+                controller.likeButton.setVisible(false);
+                controller.dislikeButton.setVisible(false);
             }
             return node;
         } catch (IOException e) {

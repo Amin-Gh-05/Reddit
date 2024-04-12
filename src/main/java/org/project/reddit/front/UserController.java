@@ -4,10 +4,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.project.reddit.content.Post;
@@ -115,14 +117,7 @@ public class UserController implements Initializable {
         this.subredditCount.setText(String.valueOf(user.getSubRedditList().size()));
         this.postCount.setText(String.valueOf(user.getPostList().size()));
         this.commentCount.setText(String.valueOf(user.getCommentList().size()));
-        // refresh saved-post list
-        int size = user.getSavedPostList().size();
-        String[] savedPosts = new String[size];
-        for (int i = 0; i < size; i++) {
-            savedPosts[i] = user.getSavedPostList().get(i).getTitle();
-        }
-        this.savedPostList.getItems().clear();
-        this.savedPostList.getItems().addAll(savedPosts);
+        refreshSavedPosts();
         // refresh timeline and alerts
         refreshTimeline();
         invalidAlert.setVisible(false);
@@ -143,6 +138,39 @@ public class UserController implements Initializable {
         user.createSubReddit(topicText.getText());
         topicText.clear();
         refreshAll();
+    }
+
+    // refresh saved-post list
+    void refreshSavedPosts() {
+        int size = user.getSavedPostList().size();
+        String[] savedPosts = new String[size];
+        for (int i = 0; i < size; i++) {
+            savedPosts[i] = user.getSavedPostList().get(i).getTitle();
+        }
+        this.savedPostList.getItems().clear();
+        this.savedPostList.getItems().addAll(savedPosts);
+        // set right click menu for every post selected
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem viewItem = new MenuItem("View");
+        contextMenu.getItems().add(viewItem);
+        savedPostList.setContextMenu(contextMenu);
+        // action of menu item
+        savedPostList.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> {
+            Post post = user.getSavedPostList().get(savedPostList.getSelectionModel().getSelectedIndex());
+            viewItem.setOnAction(e -> loadPost(post));
+        });
+    }
+
+    // load post layout
+    private void loadPost(Post post) {
+        Tab postTab = new Tab(post.getTitle());
+        postTab.setClosable(true);
+        StackPane stackPane = new StackPane();
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.getChildren().add(getPostLayout(post));
+        postTab.setContent(stackPane);
+        this.tabsPane.getTabs().add(postTab);
+        this.tabsPane.getSelectionModel().select(postTab);
     }
 
     // refresh timeline
@@ -177,7 +205,7 @@ public class UserController implements Initializable {
             // only-if opened in userpanel
             controller.userController = this;
             // set post details
-            controller.usernameText.setText(post.getUser().getUsername());
+            controller.usernameText.setText(Objects.requireNonNull(User.findUserViaId(post.getUser())).getUsername());
             controller.karmaCount.setText("Karma: " + post.getKarma());
             controller.dateTimeText.setText(post.getCreateDateTime());
             controller.topicText.setText(post.getTitle());
@@ -194,10 +222,10 @@ public class UserController implements Initializable {
             }
             controller.refreshComments();
             // disable some actions as needed
-            if (!post.getUser().equals(user)) {
+            if (!post.getUser().equals(user.getId())) {
                 controller.editButton.setVisible(false);
             }
-            if (!post.getUser().equals(user) && !post.getSubReddit().getAdminList().contains(user)) {
+            if (!post.getUser().equals(user.getId()) && !post.getSubReddit().getAdminList().contains(user.getId())) {
                 controller.deleteButton.setVisible(false);
             }
             return node;
@@ -221,7 +249,7 @@ public class UserController implements Initializable {
             controller.memberCount.setText("Members: " + subReddit.getMemberCount());
             controller.dateText.setText(subReddit.getCreateDateTime().substring(0, 10));
             // disable some actions as needed
-            if (controller.subReddit.getMemberList().contains(user)) {
+            if (controller.subReddit.getMemberList().contains(user.getId())) {
                 controller.joinButton.setVisible(false);
             } else {
                 controller.leaveButton.setVisible(false);

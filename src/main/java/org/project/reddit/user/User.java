@@ -8,6 +8,7 @@ import org.project.reddit.content.SubReddit;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -164,6 +165,10 @@ public class User implements Serializable {
         return new ArrayList<>(this.commentList);
     }
 
+    public UUID getId() {
+        return this.id;
+    }
+
     public String getEmail() {
         return this.email;
     }
@@ -233,12 +238,12 @@ public class User implements Serializable {
     // remove a member from subreddit if user is admin and signed in
     public void removeMember(User user, SubReddit subReddit) {
         // checks if selected user is a member of subreddit
-        if (!subReddit.getMemberList().contains(user)) {
+        if (!subReddit.getMemberList().contains(user.id)) {
             System.out.println("> member doesn't exist for this subreddit");
             return;
         }
         // checks if user is admin of subreddit
-        if (!subReddit.getAdminList().contains(this)) {
+        if (!subReddit.getAdminList().contains(this.id)) {
             System.out.println("> access not granted");
             return;
         }
@@ -254,12 +259,12 @@ public class User implements Serializable {
     // set the selected user admin if possible
     public void addAdmin(User user, SubReddit subReddit) {
         // checks if selected user is a member of subreddit
-        if (!subReddit.getMemberList().contains(user)) {
+        if (!subReddit.getMemberList().contains(user.id)) {
             System.out.println("> member doesn't exist for this subreddit");
             return;
         }
         // checks if user is admin of subreddit
-        if (!subReddit.getAdminList().contains(this)) {
+        if (!subReddit.getAdminList().contains(this.id)) {
             System.out.println("> access not granted");
             return;
         }
@@ -269,7 +274,7 @@ public class User implements Serializable {
             return;
         }
         // checks if user is already admin
-        if (subReddit.getAdminList().contains(user)) {
+        if (subReddit.getAdminList().contains(user.id)) {
             System.out.println("> user is already an admin");
             return;
         }
@@ -299,7 +304,7 @@ public class User implements Serializable {
             return;
         }
         // checks if user is admin or the publisher of post
-        if (!subReddit.getAdminList().contains(this) && !this.postList.contains(post)) {
+        if (!subReddit.getAdminList().contains(this.id) && !this.postList.contains(post)) {
             System.out.println("> access not granted");
             return;
         }
@@ -363,7 +368,7 @@ public class User implements Serializable {
             return;
         }
         // checks if user is admin of subreddit or publisher of comment
-        if (!post.getSubReddit().getAdminList().contains(this) && !commentList.contains(comment)) {
+        if (!post.getSubReddit().getAdminList().contains(this.id) && !commentList.contains(comment)) {
             System.out.println("> access not granted");
             return;
         }
@@ -394,62 +399,70 @@ public class User implements Serializable {
 
     // upvote/downvote post/comment
     public void upVote(Post post) {
+        // checks if post is already upvoted by the user
         if (this.upVotedPostList.contains(post)) {
             System.out.println("> post is already upvoted by user");
             return;
         }
+        // checks if post is already downvoted by the user
         if (this.downVotedPostList.contains(post)) {
             this.downVotedPostList.remove(post);
             post.increaseKarma();
-            post.getUser().increaseKarma();
+            Objects.requireNonNull(findUserViaId(post.getUser())).increaseKarma();
         }
         this.upVotedPostList.add(post);
         post.increaseKarma();
-        post.getUser().increaseKarma();
+        Objects.requireNonNull(findUserViaId(post.getUser())).increaseKarma();
     }
 
     public void upVote(Comment comment) {
+        // checks if comment is already upvoted by the user
         if (this.upVotedCommentList.contains(comment)) {
             System.out.println("> comment is already upvoted by user");
             return;
         }
+        // checks if comment is already downvoted by the user
         if (this.downVotedCommentList.contains(comment)) {
             this.downVotedCommentList.remove(comment);
             comment.increaseKarma();
-            comment.getUser().increaseKarma();
+            Objects.requireNonNull(findUserViaId(comment.getUser())).increaseKarma();
         }
         this.upVotedCommentList.add(comment);
         comment.increaseKarma();
-        comment.getUser().increaseKarma();
+        Objects.requireNonNull(findUserViaId(comment.getUser())).increaseKarma();
     }
 
     public void downVote(Post post) {
+        // checks if post is already downvoted by the user
         if (this.downVotedPostList.contains(post)) {
             System.out.println("> post is already downvoted by user");
             return;
         }
+        // checks if post is already upvoted by the user
         if (this.upVotedPostList.contains(post)) {
             this.upVotedPostList.remove(post);
             post.decreaseKarma();
-            post.getUser().decreaseKarma();
+            Objects.requireNonNull(findUserViaId(post.getUser())).decreaseKarma();
         }
         this.downVotedPostList.add(post);
         post.decreaseKarma();
-        post.getUser().decreaseKarma();
+        Objects.requireNonNull(findUserViaId(post.getUser())).decreaseKarma();
     }
 
     public void downVote(Comment comment) {
+        // checks if comment is already downvoted by the user
         if (this.downVotedCommentList.contains(comment)) {
             System.out.println("> comment is already downvoted by user");
             return;
         }
+        // checks if comment is already upvoted by the user
         if (this.upVotedCommentList.contains(comment)) {
             this.upVotedCommentList.remove(comment);
             comment.decreaseKarma();
-            comment.getUser().decreaseKarma();
+            Objects.requireNonNull(findUserViaId(comment.getUser())).decreaseKarma();
         }
         this.downVotedCommentList.add(comment);
         comment.decreaseKarma();
-        comment.getUser().decreaseKarma();
+        Objects.requireNonNull(findUserViaId(comment.getUser())).decreaseKarma();
     }
 }

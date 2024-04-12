@@ -48,7 +48,7 @@ public class ProfileController implements Initializable {
             String label = "";
             label += subReddit.getTopic() + " ";
             // add admin label as needed
-            if (subReddit.getAdminList().contains(user)) {
+            if (subReddit.getAdminList().contains(user.getId())) {
                 label += "(admin)  ";
             }
             label += subReddit.getCreateDateTime();

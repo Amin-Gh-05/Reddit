@@ -13,6 +13,7 @@ import org.project.reddit.content.SubReddit;
 import org.project.reddit.user.User;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class ShowController {
     public User user;
@@ -91,7 +92,7 @@ public class ShowController {
             // only if in user show panel
             controller.showController = this;
             // set details of post
-            controller.usernameText.setText(post.getUser().getUsername());
+            controller.usernameText.setText(Objects.requireNonNull(User.findUserViaId(post.getUser())).getUsername());
             controller.karmaCount.setText("Karma: " + post.getKarma());
             controller.dateTimeText.setText(post.getCreateDateTime());
             controller.topicText.setText(post.getTitle());
@@ -114,6 +115,7 @@ public class ShowController {
             } else {
                 controller.tagsText.setVisible(false);
             }
+            controller.refreshComments();
             return node;
         } catch (IOException e) {
             throw new RuntimeException();

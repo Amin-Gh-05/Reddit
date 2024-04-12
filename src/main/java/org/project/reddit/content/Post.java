@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 public class Post implements Serializable {
     // static list to store posts and their count
@@ -17,7 +18,7 @@ public class Post implements Serializable {
     private final List<Comment> commentList = new ArrayList<>();
     private final List<String> tagList = new ArrayList<>();
     private final SubReddit subReddit;
-    private final User user;
+    private final UUID user;
     private final String createDateTime;
     private final String title;
     private String text;
@@ -28,7 +29,7 @@ public class Post implements Serializable {
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
-        this.user = user;
+        this.user = user.getId();
         this.karma = 0;
         postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
@@ -41,7 +42,7 @@ public class Post implements Serializable {
         this.title = title;
         this.text = text;
         this.subReddit = subReddit;
-        this.user = user;
+        this.user = user.getId();
         this.karma = 0;
         postList.add(this);
         this.createDateTime = formatDateTime(LocalDateTime.now());
@@ -86,7 +87,7 @@ public class Post implements Serializable {
         return subReddit;
     }
 
-    public User getUser() {
+    public UUID getUser() {
         return user;
     }
 

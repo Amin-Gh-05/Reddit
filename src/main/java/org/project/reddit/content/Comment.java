@@ -5,10 +5,11 @@ import org.project.reddit.user.User;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 public class Comment implements Serializable {
     private final Post post;
-    private final User user;
+    private final UUID user;
     private final String createDateTime;
     private String text;
     private int karma;
@@ -16,7 +17,7 @@ public class Comment implements Serializable {
     public Comment(String text, Post post, User user) {
         this.text = text;
         this.post = post;
-        this.user = user;
+        this.user = user.getId();
         this.karma = 0;
         this.createDateTime = formatDateTime(LocalDateTime.now());
     }
@@ -32,7 +33,7 @@ public class Comment implements Serializable {
         return this.post;
     }
 
-    public User getUser() {
+    public UUID getUser() {
         return this.user;
     }
 

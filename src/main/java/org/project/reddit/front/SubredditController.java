@@ -11,9 +11,7 @@ import org.project.reddit.content.SubReddit;
 import org.project.reddit.user.User;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class SubredditController {
     public SubReddit subReddit;
@@ -116,9 +114,11 @@ public class SubredditController {
         // clears list
         this.memberList.getItems().clear();
         // add all members to list
-        for (User user : this.subReddit.getMemberList()) {
+        for (UUID id : this.subReddit.getMemberList()) {
+            User user = User.findUserViaId(id);
+            assert user != null;
             String userText = user.getUsername();
-            if (subReddit.getAdminList().contains(user)) {
+            if (subReddit.getAdminList().contains(user.getId())) {
                 userText += " (admin)";
             }
             this.memberList.getItems().add(userText);
@@ -165,6 +165,7 @@ public class SubredditController {
             item = item.replaceAll(" \\(admin\\)", "");
         }
         User user = User.findUserViaUsername(item);
+        assert user != null;
         UserController.user.removeMember(user, this.subReddit);
         refreshAll();
     }
@@ -177,6 +178,7 @@ public class SubredditController {
             return;
         }
         User user = User.findUserViaUsername(username);
+        assert user != null;
         UserController.user.addAdmin(user, this.subReddit);
         refreshAll();
     }
@@ -191,7 +193,7 @@ public class SubredditController {
             // only-if opened from subreddit panel
             controller.subredditController = this;
             // set details of post
-            controller.usernameText.setText(post.getUser().getUsername());
+            controller.usernameText.setText(Objects.requireNonNull(User.findUserViaId(post.getUser())).getUsername());
             controller.karmaCount.setText("Karma: " + post.getKarma());
             controller.dateTimeText.setText(post.getCreateDateTime());
             controller.topicText.setText(post.getTitle());
@@ -212,12 +214,13 @@ public class SubredditController {
                 controller.likeButton.setVisible(false);
                 controller.dislikeButton.setVisible(false);
                 controller.saveButton.setVisible(false);
-            }
-            if (!post.getUser().equals(UserController.user)) {
-                controller.editButton.setVisible(false);
-            }
-            if (!post.getUser().equals(UserController.user) && !post.getSubReddit().getAdminList().contains(UserController.user)) {
-                controller.deleteButton.setVisible(false);
+            } else {
+                if (!post.getUser().equals(UserController.user.getId())) {
+                    controller.editButton.setVisible(false);
+                }
+                if (!post.getUser().equals(UserController.user.getId()) && !post.getSubReddit().getAdminList().contains(UserController.user.getId())) {
+                    controller.deleteButton.setVisible(false);
+                }
             }
             return node;
         } catch (IOException e) {

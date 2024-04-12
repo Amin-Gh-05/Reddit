@@ -27,6 +27,10 @@ public class CommentController {
     public Button editButton;
     @FXML
     public Button deleteButton;
+    @FXML
+    public Button likeButton;
+    @FXML
+    public Button dislikeButton;
     // times the edit button is clicked (to prevent several edits at the same time)
     int editClick = 0;
 
