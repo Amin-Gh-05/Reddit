@@ -214,6 +214,8 @@ public class SubredditController {
                 controller.likeButton.setVisible(false);
                 controller.dislikeButton.setVisible(false);
                 controller.saveButton.setVisible(false);
+                controller.deleteButton.setVisible(false);
+                controller.editButton.setVisible(false);
             } else {
                 if (!post.getUser().equals(UserController.user.getId())) {
                     controller.editButton.setVisible(false);

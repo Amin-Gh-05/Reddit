@@ -43,6 +43,7 @@ public class MainController implements Initializable {
     // open sign up panel and change scene
     @FXML
     void openSignUpPage(ActionEvent event) throws IOException {
+        // change scene
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/signup-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -54,6 +55,7 @@ public class MainController implements Initializable {
     // open log in panel and change scene
     @FXML
     void openLogInPage(ActionEvent event) throws IOException {
+        // change scene
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/org/project/reddit/login-view.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);

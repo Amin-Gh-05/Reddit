@@ -102,6 +102,10 @@ public class PostController {
     // create a new comment for the post
     @FXML
     void sendComment() {
+        if (UserController.user == null) {
+            System.out.println("> access not granted");
+            return;
+        }
         UserController.user.createComment(this.newCommentText.getText(), this.post);
         // refresh comments panel
         this.newCommentText.clear();
