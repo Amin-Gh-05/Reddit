@@ -28,6 +28,8 @@ public class PostController {
     @FXML
     public Label usernameText;
     @FXML
+    public Label subredditText;
+    @FXML
     public Label karmaCount;
     @FXML
     public Label dateTimeText;

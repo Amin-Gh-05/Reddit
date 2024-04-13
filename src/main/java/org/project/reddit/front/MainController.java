@@ -141,6 +141,7 @@ public class MainController implements Initializable {
             controller.post = post;
             // set details of post
             controller.usernameText.setText(Objects.requireNonNull(User.findUserViaId(post.getUser())).getUsername());
+            controller.subredditText.setText(post.getSubReddit().getTopic());
             controller.karmaCount.setText("Karma: " + post.getKarma());
             controller.dateTimeText.setText(post.getCreateDateTime());
             controller.topicText.setText(post.getTitle());
