@@ -66,10 +66,14 @@ Amin Ghoorchian
 ## Version History
 
 - 1.0.1
-  - bug fixes, errors handled and improved features
+  - bug fixes
+  - exceptions handled
+  - improved features
 
 - 1.0.0
-  - first stable version with full gui features and functionality
+  - first stable version
+  - full gui features
+  - functionality almost done
  
 ## Acknowledgements
 
