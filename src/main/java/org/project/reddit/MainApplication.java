@@ -31,7 +31,7 @@ public class MainApplication extends Application {
             User.userCount = User.userList.size();
             System.out.println("> user-list was deserialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
         // load subreddits from Subreddits.ser if possible
         try {
@@ -43,7 +43,7 @@ public class MainApplication extends Application {
             SubReddit.subRedditCount = SubReddit.subRedditList.size();
             System.out.println("> subreddit-list was deserialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
         // load posts from Posts.ser if possible
         try {
@@ -55,7 +55,7 @@ public class MainApplication extends Application {
             Post.postCount = Post.postList.size();
             System.out.println("> post-list was deserialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
     }
 
@@ -83,7 +83,7 @@ public class MainApplication extends Application {
             fileOut.close();
             System.out.println("> user-list was serialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
         // save subreddits to Subreddits.ser if possible
         try {
@@ -94,7 +94,7 @@ public class MainApplication extends Application {
             fileOut.close();
             System.out.println("> subreddit-list was serialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
         // save posts to Posts.ser if possible
         try {
@@ -105,7 +105,7 @@ public class MainApplication extends Application {
             fileOut.close();
             System.out.println("> post-list was serialized");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("> " + e);
         }
     }
 }

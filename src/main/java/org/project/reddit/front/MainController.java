@@ -70,7 +70,11 @@ public class MainController implements Initializable {
         this.userCount.setText(String.valueOf(User.userCount));
         this.subredditCount.setText(String.valueOf(SubReddit.subRedditCount));
         this.postCount.setText(String.valueOf(Post.postCount));
-        refreshTrendingPosts();
+        try {
+            refreshTrendingPosts();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("> " + e);
+        }
         System.out.println("> main panel refreshed");
     }
 
@@ -104,7 +108,7 @@ public class MainController implements Initializable {
     }
 
     // refresh trending-posts list
-    void refreshTrendingPosts() {
+    void refreshTrendingPosts() throws IndexOutOfBoundsException {
         // clear and fill list
         this.trendingPostList.getItems().clear();
         this.trendingPostList.getItems().addAll(Post.getTrendingPosts());

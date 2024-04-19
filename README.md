@@ -29,11 +29,11 @@ Reddit Clone is a simple JavaFX application inspired by the popular social media
 
 ## Getting Started
 
-You can download the latest release on this github page
+You can download the latest release on this GitHub page
 
 ### Dependencies
 
-- Windows 10 or later (Mac OS or Linux is not guaranteed)
+- Windows 10 or later (macOS or Linux is not guaranteed)
 - Apache DigestUtils 1.16.1 or later
 - Java SE Runtime 8 or later
 - Javafx library v1.8

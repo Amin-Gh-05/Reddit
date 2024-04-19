@@ -117,7 +117,11 @@ public class UserController implements Initializable {
         this.subredditCount.setText(String.valueOf(user.getSubRedditList().size()));
         this.postCount.setText(String.valueOf(user.getPostList().size()));
         this.commentCount.setText(String.valueOf(user.getCommentList().size()));
-        refreshSavedPosts();
+        try {
+            refreshSavedPosts();
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("> " + e);
+        }
         // refresh timeline and alerts
         refreshTimeline();
         invalidAlert.setVisible(false);
@@ -141,7 +145,7 @@ public class UserController implements Initializable {
     }
 
     // refresh saved-post list
-    void refreshSavedPosts() {
+    void refreshSavedPosts() throws IndexOutOfBoundsException {
         int size = user.getSavedPostList().size();
         String[] savedPosts = new String[size];
         for (int i = 0; i < size; i++) {
