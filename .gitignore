@@ -40,3 +40,6 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/Posts.ser
+/Subreddits.ser
+/Users.ser
