@@ -40,12 +40,12 @@ You can download the latest release on this GitHub page
 
 ### Installation and Execution
 
-1. Download release from [this link]()
+1. Download release from [this link](https://github.com/Amin-Gh-05/Reddit/releases/)
 2. Go to file directory and launch it useing the following command
 ```java -jar Reddit.jar```
 3. Enjoy app!
 
-###
+### Using The App
 
 GUI is designed simple! 
 
@@ -66,10 +66,14 @@ Amin Ghoorchian
 ## Version History
 
 - 1.0.1
-  - bug fixes, errors handled and improved features
+  - bug fixes
+  - exceptions handled
+  - improved features
 
 - 1.0.0
-  - first stable version with full gui features and functionality
+  - first stable version
+  - full gui features
+  - functionality almost done
  
 ## Acknowledgements
 
